@@ -1,19 +1,43 @@
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+import UFooter from "./pages/uFooter";
+import WMFooter from "./pages/wmFooter";
+import LandingPage from "./pages/landingPage";
 
-import './App.css';
+const userType = "user";
+
+const renderLayout = () => {
+  if (userType === "user") {
+    return (
+      <div className="bg-neutral-50">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+        </Routes>
+        <div className="userfooter">
+          <UFooter />
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="bg-neutral-50">
+        <Routes></Routes>
+        <div className="wmfooter">
+          <WMFooter />
+        </div>
+      </div>
+    );
+  }
+};
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-       
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        
-          
-      </header>
-    </div>
-  );
+  return <div className="content">{renderLayout()}</div>;
 }
 
 export default App;
