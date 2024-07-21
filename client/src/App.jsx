@@ -9,6 +9,7 @@ import {
 import UFooter from "./pages/uFooter";
 import WMFooter from "./pages/wmFooter";
 import LandingPage from "./pages/landingPage";
+import UHeader from "./pages/uHeader";
 
 const userType = "user";
 
@@ -16,6 +17,9 @@ const renderLayout = () => {
   if (userType === "user") {
     return (
       <div className="bg-neutral-50">
+        <div className="userheader">
+          <UHeader />
+        </div>
         <Routes>
           <Route path="/" element={<LandingPage />} />
         </Routes>
@@ -24,7 +28,7 @@ const renderLayout = () => {
         </div>
       </div>
     );
-  } else {
+  } else if (userType === "wm") {
     return (
       <div className="bg-neutral-50">
         <Routes></Routes>
