@@ -35,7 +35,7 @@ const UHeader = () => {
               <p className="bg-blue-500 h-6 md:h-12 w-[60%] lg:w-[35%] -ml-6 text-center content-center cursor-pointer text-stone-200 hover:text-blue-500 hover:bg-stone-200 duration-300">
                 <Link to="">
                   <span className="htext text-xs md:text-lg lg:text-xl ">
-                    Book Appointment
+                    BOOK SERVICE NOW
                   </span>
                 </Link>
               </p>
@@ -162,7 +162,7 @@ const UHeader = () => {
                   </div>
                   <div className="w-16 md:w-28 xl:w-32 ml-5 mr-3 xl:mr-0 xl:ml-0">
                     {!isLoggedIn ? (
-                      <Link to="">
+                      <Link to="/login">
                         <p className="text-stone-200 hover:text-blue-600 duration-300 htext text-base md:text-lg lg:text-xl mt-1 md:mt-0">
                           LOGIN
                         </p>

@@ -10,6 +10,7 @@ import UFooter from "./pages/uFooter";
 import WMFooter from "./pages/wmFooter";
 import LandingPage from "./pages/landingPage";
 import UHeader from "./pages/uHeader";
+import Login from "./pages/login";
 
 const userType = "user";
 
@@ -22,6 +23,7 @@ const renderLayout = () => {
         </div>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
         <div className="userfooter">
           <UFooter />
