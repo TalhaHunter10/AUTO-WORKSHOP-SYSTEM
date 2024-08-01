@@ -11,6 +11,7 @@ import WMFooter from "./pages/wmFooter";
 import LandingPage from "./pages/landingPage";
 import UHeader from "./pages/uHeader";
 import Login from "./pages/login";
+import SignUp from "./pages/signUp";
 
 const userType = "user";
 
@@ -24,6 +25,7 @@ const renderLayout = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
         <div className="userfooter">
           <UFooter />

@@ -65,7 +65,7 @@ const Login = () => {
               <span className="font-semibold mr-1">Not registered yet? </span>{" "}
               Create an Account -{" "}
               <p className="font-semibold text-blue-600 hover:scale-110 duration-300 ml-2">
-                <Link> Sign Up</Link>
+                <Link to="/signup"> Sign Up</Link>
               </p>
             </p>
           </div>
