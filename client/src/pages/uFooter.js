@@ -21,7 +21,7 @@ const UFooter = () => {
                 Islamabad Capital Territory, Pakistan
               </p>
               <br></br>
-              <h2 className="mb-3 htext text-base text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-3 htext text-base text-stone-300 uppercase dark:text-white">
                 Contact Us
               </h2>
               <p className="mb-2">+92-333-5188007</p>
@@ -31,7 +31,7 @@ const UFooter = () => {
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
             <div>
-              <h2 className="mb-6 htext text-base text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-6 htext text-base text-stone-300 uppercase dark:text-white">
                 Our Services
               </h2>
               <ul className="text-stone-200 dark:text-stone-200 font-medium btext">
@@ -63,7 +63,7 @@ const UFooter = () => {
               </ul>
             </div>
             <div>
-              <h2 className="mb-6 htext text-base  text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-6 htext text-base  text-stone-300 uppercase dark:text-white">
                 Resources
               </h2>
               <ul className="text-stone-200 dark:text-stone-200 font-medium btext">
@@ -83,7 +83,7 @@ const UFooter = () => {
               </ul>
             </div>
             <div>
-              <h2 className="mb-6 htext text-base  text-gray-900 uppercase dark:text-white md:ml-7">
+              <h2 className="mb-6 htext text-base  text-stone-300 uppercase dark:text-white md:ml-7">
                 Follow Us
               </h2>
               <div className="flex mt-4 justify-center  btext">
