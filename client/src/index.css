@@ -39,11 +39,38 @@ code {
   background-color: #2563eb; /* Tailwind's bg-blue-600 */
   color: #e7e5e4; /* Tailwind's text-stone-200 */
   border: none;
-  border-radius: 0.375rem; /* Tailwind's rounded-md */
-  padding: 0.5rem 1rem; /* Adjust as needed */
   transition: box-shadow 0.5s ease; /* Smooth transition */
 }
 
 .button:hover {
   box-shadow: 0px 0px 10px rgba(4, 65, 155, 0.9); /* Blue glow effect */
+}
+
+.bg-services {
+  background-image: url("../public/images/servicesBackground.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.bg-landing {
+  background-image: url("../public/images/landingBackground.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to top right,
+    rgba(0, 0, 0, 0.9),
+    rgba(158, 11, 11, 0) 100%
+  );
+  z-index: 100;
 }

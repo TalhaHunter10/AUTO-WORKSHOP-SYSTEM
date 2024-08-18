@@ -99,7 +99,7 @@ const SignUp = () => {
             <Button
               text="Sign Up"
               onClick={handleSubmit}
-              style="mt-5 mb-5 w-full h-12 text-xl"
+              style="mt-5 mb-5 w-full h-12 text-xl rounded-md"
             />
             <p className="btext text-center flex justify-center">
               <span className="font-semibold mr-1">Already registered? </span>{" "}

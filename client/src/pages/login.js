@@ -59,7 +59,7 @@ const Login = () => {
             <Button
               text="Login"
               onClick={handleSubmit}
-              style="mt-8 mb-5 w-full h-12 text-xl"
+              style="mt-8 mb-5 w-full h-12 text-xl rounded-md"
             />
             <p className="btext text-center flex justify-center">
               <span className="font-semibold mr-1">Not registered yet? </span>{" "}
