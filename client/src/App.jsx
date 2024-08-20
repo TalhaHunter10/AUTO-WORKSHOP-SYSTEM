@@ -12,6 +12,8 @@ import LandingPage from "./pages/landingPage";
 import UHeader from "./pages/uHeader";
 import Login from "./pages/login";
 import SignUp from "./pages/signUp";
+import ForgotPassword from "./pages/forgotPassword";
+import RecoverAccount from "./pages/recoverAccount";
 
 const userType = "user";
 
@@ -26,6 +28,8 @@ const renderLayout = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword" element={<RecoverAccount />} />
         </Routes>
         <div className="userfooter">
           <UFooter />
@@ -35,7 +39,13 @@ const renderLayout = () => {
   } else if (userType === "wm") {
     return (
       <div className="bg-neutral-50">
-        <Routes></Routes>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword" element={<RecoverAccount />} />
+        </Routes>
         <div className="wmfooter">
           <WMFooter />
         </div>
