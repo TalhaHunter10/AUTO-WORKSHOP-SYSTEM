@@ -120,19 +120,45 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const verifyEmail = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.body);
+  const { email, verificationCode } = req.body;
+
+  if (!email || !verificationCode) {
+    res.status(400);
+    throw new Error("Please provide both email and verification code");
+  }
+
+  const user = await User.findOne({ email });
 
   if (!user) {
     res.status(400);
     throw new Error("Invalid user data");
   }
 
+  const codeEntry = await VerificationCode.findOne({
+    code: verificationCode,
+    user: user._id,
+  });
+
+  if (!codeEntry) {
+    res.status(400);
+    throw new Error("Invalid verification code");
+  }
+
+  const isExpired = new Date() > codeEntry.expiresAt;
+  if (isExpired) {
+    res.status(400);
+    throw new Error("Verification code has expired");
+  }
+
   user.status = "user";
   await user.save();
 
+  // Optionally, you can delete the verification code after successful verification
+  await VerificationCode.deleteOne({ _id: codeEntry._id });
+
   res.status(200).json({
     _id: user._id,
-    message: "Email Verified Successfully !",
+    message: "Email Verified Successfully!",
   });
 });
 
