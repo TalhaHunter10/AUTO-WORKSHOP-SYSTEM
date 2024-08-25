@@ -14,6 +14,7 @@ import Login from "./pages/login";
 import SignUp from "./pages/signUp";
 import ForgotPassword from "./pages/forgotPassword";
 import RecoverAccount from "./pages/recoverAccount";
+import ConfirmEmail from "./pages/confirmEmail";
 
 const userType = "user";
 
@@ -30,6 +31,7 @@ const renderLayout = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/resetpassword" element={<RecoverAccount />} />
+          <Route path="/confirm-email" element={<ConfirmEmail />} />
         </Routes>
         <div className="userfooter">
           <UFooter />
