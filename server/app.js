@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
 const bodyparser = require("body-parser");
+const cookieParser = require('cookie-parser');
 require("dotenv").config();
 //app
 const app = express();
@@ -20,6 +21,7 @@ mongoose
   .catch((err) => console.log("DB CONNECTECTION ERROR", err));
 
 //middleware
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(cors({ origin: true, credentials: true }));
 
