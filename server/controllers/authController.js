@@ -4,10 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const Token = require("../models/tokenModel");
-const { response } = require("express");
 
 const sendEmail = require("../utils/sendEmail");
-const { stat } = require("fs");
 const VerificationCode = require("../models/verificationCodeModel");
 const WM = require("../models/wmModel");
 
@@ -111,7 +109,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     res.status(201).json({
       _id: user._id,
-      message: "Email Verification Code Sent Successfully !",
+      message: "Verification Code Sent Successfully !",
     });
   } else {
     res.status(400);
@@ -130,7 +128,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    res.status(400);
+    res.status(400).json({ message: "User not found",status:400, type: "notFound" });
     throw new Error("Invalid user data");
   }
 
@@ -140,13 +138,13 @@ const verifyEmail = asyncHandler(async (req, res) => {
   });
 
   if (!codeEntry) {
-    res.status(400);
+    res.status(400).json({ message: "Invalid verification code",status:400, type: "inValid" });
     throw new Error("Invalid verification code");
   }
 
   const isExpired = new Date() > codeEntry.expiresAt;
   if (isExpired) {
-    res.status(400);
+    res.status(400).json({ message: "Verification code has expired",status:400, type: "expired" });
     throw new Error("Verification code has expired");
   }
 

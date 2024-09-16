@@ -1,21 +1,67 @@
 import { Input } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { checkLoginStatus, confirmEmail } from "../services/authService";
+import { toast } from "react-toastify";
 
 const ConfirmEmail = () => {
+  const navigate = useNavigate();
   const [code, setCode] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { email } = useParams();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    isLoggedIn();
+  }
+  , []);
+
+  const isLoggedIn = async () => {
     try {
-      const res = [];
+      const res = await checkLoginStatus();
+      if(res.verified){
+        navigate("/");
+      }
     } catch (err) {
-      setError(true);
+      console.error(err);
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = {};
+
+    if (!code.trim()) {
+      validationErrors.code = "Verification code is required !";
+    }
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      setIsLoading(true);
+      try {
+        const res = await confirmEmail(email,code);
+        if (res.status === 400) {
+          if(res.type === "notFound"){
+            toast.error("Email not found. Please register again !");
+          } else if(res.type === "inValid"){
+            toast.error("Invalid verification code !");
+          } else if (res.type === "expired"){
+            toast.error("Verification code expired. Please register again !");
+          } else {
+            toast.error("Something went wrong. Please try again !");
+          }
+        } else if (res.status === 200) {
+          toast.success("Email verified successfully !");
+          navigate("/login");
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    }
+  };
   return (
     <div className="mx-8 md:mx-20">
       <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
@@ -24,6 +70,7 @@ const ConfirmEmail = () => {
             <h1 className="htext text-3xl md:text-5xl">Verify Email Address</h1>
             <p className="btext text-xl md:text-2xl mt-6">
               Enter the verification code sent to your email address.
+              <span className="text-md text-red-600">({email})</span>
             </p>
             <form className="mt-10">
               <p className="btext font-semibold text-xl">Verification Code</p>
@@ -34,6 +81,7 @@ const ConfirmEmail = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
               />
+              {errors.code && <h1 className="text-red-600 mb-6">{errors.code}</h1>}
 
               <Button
                 text="Confirm"
@@ -43,7 +91,7 @@ const ConfirmEmail = () => {
               <p className="btext text-center flex justify-left">
                 <span className="font-semibold mr-1">Wrong Email? </span>
                 <p className="font-semibold text-blue-600 hover:scale-110 duration-300 ml-2">
-                  <Link to="/register"> Register Again</Link>
+                  <Link to="/signup"> Register Again</Link>
                 </p>
               </p>
             </form>

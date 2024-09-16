@@ -18,3 +18,12 @@ export const registerUser = async (user) => {
         return error.response.data
     }
 }
+
+export const confirmEmail = async (email, verificationCode) => {
+    try {
+        const response = await axios.post(`${backendUrl}/api/auth/email_verification`, { email, verificationCode })
+        return response;
+    } catch (error) {
+        return error.response.data
+    }
+}
