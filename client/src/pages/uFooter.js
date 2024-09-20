@@ -1,6 +1,7 @@
 import { InstagramFilled } from "@ant-design/icons";
 import { FacebookFilled } from "@ant-design/icons";
 import { TwitterSquareFilled } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 const UFooter = () => {
   return (
     <div className="bg-stone-700 text-center md:text-left">
@@ -68,17 +69,14 @@ const UFooter = () => {
               </h2>
               <ul className="text-stone-200 dark:text-stone-200 font-medium btext">
                 <li className="mb-4">
-                  <a href="https://flowbite.com/" className="hover:underline">
+                <Link to="/privacy" className="hover:underline" target="blank">
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="https://tailwindcss.com/"
-                    className="hover:underline"
-                  >
+                  <Link to="/termsandconditions" className="hover:underline" target="blank"> 
                     Terms & Conditions
-                  </a>
+                </Link>
                 </li>
               </ul>
             </div>
