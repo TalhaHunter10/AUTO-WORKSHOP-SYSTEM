@@ -91,7 +91,12 @@ const SignUp = () => {
         navigate(`/confirm-email/${formdata.email}`)
        }
        else{
+        if(res.status === 400 && res.type === 'exists'){
+          toast.error('User already exists !')
+        }
+        else{
           toast.error('Something went wrong. Please try again !')
+        }
        }
         setIsLoading(false)
       } catch (error) {
@@ -173,8 +178,9 @@ const SignUp = () => {
               className="btext text-blue-600 font-semibold text-right mt-3 "
             >
               <Link
-                to=""
+                to="/termsandconditions"
                 className=" cursor-pointer hover:text-red-600 duration-300"
+                target="blank"
               >
                 {" "}
                 Terms and Conditions
