@@ -63,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
       });
     }
 
-    res.status(400);
+    res.status(400).json({ message: "Email has already been registered",status:400, type: "exists" });
     throw new Error("Email has already been registered");
   }
 
@@ -160,7 +160,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
   });
 });
 
-const loginUser = asyncHandler(async (req, res) => {
+const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -170,15 +170,11 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email, status: "user" });
 
-  if (!user) {
-    res.status(400);
-    throw new Error("User has not registered !");
-  }
-
+  if(user){
   const passwordIsCorrect = await bcrypt.compare(password, user.password);
 
   if (!passwordIsCorrect) {
-    res.status(400);
+    res.status(400).json({ message: "Invalid email or password !",status:400, type: "inValid" });
     throw new Error("Invalid email or password");
   }
 
@@ -194,7 +190,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const { _id, name, phoneno, status } = user;
 
-  if (user && passwordIsCorrect) {
     res.status(200).json({
       _id,
       name,
@@ -203,10 +198,43 @@ const loginUser = asyncHandler(async (req, res) => {
       status,
       token,
     });
-  } else {
-    res.status(401);
+}
+
+const wm = await WM.findOne({ email, status: "wm" });
+
+if(wm){
+  const passwordIsCorrect = await bcrypt.compare(password, wm.password);
+
+  if (!passwordIsCorrect) {
+    res.status(400).json({ message: "Invalid email or password !",status:400, type: "inValid" });
     throw new Error("Invalid email or password");
   }
+
+  const token = generateToken(wm._id);
+
+  res.cookie("token", token, {
+    path: "/",
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000 * 7200),
+    sameSite: "none",
+    secure: true,
+  });
+
+  const { _id, name, phoneno, status } = wm;
+
+  
+    res.status(200).json({
+      _id,
+      name,
+      email,
+      phoneno,
+      status,
+      token,
+    });
+}
+
+res.status(400).json({ message: "User not found !",status:400, type: "notFound" });
+ 
 });
 
 const registerWM = asyncHandler(async (req, res) => {
@@ -243,55 +271,6 @@ const registerWM = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error("Invalid data");
-  }
-});
-
-const loginWM = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    res.status(400);
-    throw new Error("Please fill in all fields");
-  }
-
-  const wm = await WM.findOne({ email, status: "wm" });
-
-  if (!wm) {
-    res.status(400);
-    throw new Error("WM has not registered !");
-  }
-
-  const passwordIsCorrect = await bcrypt.compare(password, wm.password);
-
-  if (!passwordIsCorrect) {
-    res.status(400);
-    throw new Error("Invalid email or password");
-  }
-
-  const token = generateToken(wm._id);
-
-  res.cookie("token", token, {
-    path: "/",
-    httpOnly: true,
-    expires: new Date(Date.now() + 1000 * 7200),
-    sameSite: "none",
-    secure: true,
-  });
-
-  const { _id, name, phoneno, status } = wm;
-
-  if (wm && passwordIsCorrect) {
-    res.status(200).json({
-      _id,
-      name,
-      email,
-      phoneno,
-      status,
-      token,
-    });
-  } else {
-    res.status(401);
-    throw new Error("Invalid email or password");
   }
 });
 
@@ -533,12 +512,11 @@ const logOut = asyncHandler(async (req, res) => {
 module.exports = {
   registerUser,
   verifyEmail,
-  loginUser,
+  login,
   logOut,
   loginStatus,
   forgotPassword,
   resetPassword,
   changePassword,
   registerWM,
-  loginWM,
 };

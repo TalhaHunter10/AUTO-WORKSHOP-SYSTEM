@@ -27,3 +27,12 @@ export const confirmEmail = async (email, verificationCode) => {
         return error.response.data
     }
 }
+
+export const login = async (email, password) => {
+    try {
+        const response = await axios.post(`${backendUrl}/api/auth/login`, { email, password }, { withCredentials: true })
+        return response;
+    } catch (error) {
+        return error.response.data
+    }
+}

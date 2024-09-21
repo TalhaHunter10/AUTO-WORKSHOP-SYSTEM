@@ -1,19 +1,55 @@
 import { Input } from "antd";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/button";
+import { login } from "../services/authService";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = [];
-    } catch (err) {
-      setError(true);
+    const validationErrors = {}
+
+    if (!email.trim()) {
+      validationErrors.email = 'Email is required !';
+    } else if (!/^[a-zA-Z0-9.]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(email)) {
+      validationErrors.email = 'Enter a Valid Email !';
+    }
+
+    if (!password.trim()) {
+      validationErrors.password = 'Password is required !';
+    } else if (password.length < 6) {
+      validationErrors.password = 'Password must be atleast 6 characters long !';
+    }
+
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+
+      try {
+        const response = await login(email, password);
+        if (response.status === 200) {
+          localStorage.setItem("user", response.data);
+          toast.success("Login Successful");
+          navigate("/");
+        } else {
+          toast.error(response.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -35,6 +71,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {errors.email && <h1 className='text-red-600 mb-6'>{errors.email}</h1>}
 
               <p className="btext font-semibold mt-5 text-xl">Password</p>
               <Input.Password
@@ -43,6 +80,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {errors.password && <h1 className='text-red-600 mb-6'>{errors.password}</h1>}
             </form>
             <p
               to=""
