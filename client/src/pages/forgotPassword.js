@@ -1,23 +1,75 @@
 import { Input } from "antd";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/button";
+import { checkLoginStatus, forgotPassword } from "../services/authService";
+import { toast } from "react-toastify";
+import { Loader } from "../components/loader";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setError("");
+  }, [email]);
+
+  useEffect(() => {
+    isLoggedIn();
+  }, []);
+
+  const isLoggedIn = async () => {
+    try {
+      const res = await checkLoginStatus();
+      if (res.data.verified) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = [];
-    } catch (err) {
-      setError(true);
+    const validationErrors = {};
+
+    if (!email.trim()) {
+      validationErrors.email = "Email is required !";
+    } else if (!/^[a-zA-Z0-9.]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(email)) {
+      validationErrors.email = "Enter a Valid Email !";
+    }
+    setError(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      setIsLoading(true);
+      try {
+        const res = await forgotPassword(email);
+        if (res.status === 404) {
+          toast.error("Email is not associated with any user !");
+        } else if (res.status === 400 && res.type === "notVerified") {
+          toast.error(
+            "Email is not verified ! Register again and verify email."
+          );
+        } else if (res.status === 200) {
+          toast.success("Recovery code sent to your email address !");
+          navigate(`/resetpassword/${email}`);
+        } else {
+          toast.error("Something went wrong. Please try again !");
+        }
+
+        setIsLoading(false);
+      } catch (err) {
+        setError(true);
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <div className="mx-8 md:mx-20">
+      <Loader isLoading={isLoading} />
       <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
         <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 ">
           <div className="mt-10 md:mt-0 pl-0 pr-0 md:pl-10 lg:pl-20 xl:pl-48 md:pr-20 md:mb-20">
@@ -34,6 +86,9 @@ const ForgotPassword = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {error.email && (
+                <h1 className="text-red-600 mb-6">{error.email}</h1>
+              )}
             </form>
 
             <Button

@@ -29,10 +29,45 @@ export const confirmEmail = async (email, verificationCode) => {
 }
 
 export const login = async (email, password) => {
-    try {
-        const response = await axios.post(`${backendUrl}/api/auth/login`, { email, password }, { withCredentials: true })
-        return response;
-    } catch (error) {
-        return error.response.data
-    }
-}
+  try {
+    const response = await axios.post(`${backendUrl}/api/auth/login`, {
+      email,
+      password,
+    });
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await axios.get(`${backendUrl}/api/auth/logout`);
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const forgotPassword = async (email) => {
+  try {
+    const response = await axios.post(`${backendUrl}/api/auth/forgotpassword`, {
+      email,
+    });
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const resetPassword = async (email, resetToken, password) => {
+  try {
+    const response = await axios.put(
+      `${backendUrl}/api/auth/resetpassword/${resetToken}`,
+      { email, password }
+    );
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};

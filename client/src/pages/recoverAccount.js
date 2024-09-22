@@ -1,31 +1,92 @@
 import { Input } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { checkLoginStatus, resetPassword } from "../services/authService";
+import { Loader } from "../components/loader";
+import { toast } from "react-toastify";
 
 const RecoverAccount = () => {
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { email } = useParams();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setError("");
+  }, [code, password, confirmPassword]);
+
+  useEffect(() => {
+    isLoggedIn();
+  }, []);
+
+  const isLoggedIn = async () => {
+    try {
+      const res = await checkLoginStatus();
+      if (res.data.verified) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = [];
-    } catch (err) {
-      setError(true);
+
+    const validationErrors = {};
+
+    if (!code.trim()) {
+      validationErrors.code = "Recovery code is required !";
+    }
+    if (!password.trim()) {
+      validationErrors.password = "Password is required !";
+    }
+    if (!confirmPassword.trim()) {
+      validationErrors.confirmPassword = "Confirm Password is required !";
+    }
+    if (password !== confirmPassword) {
+      validationErrors.confirmPassword = "Passwords do not match !";
+    }
+    setError(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      setIsLoading(true);
+      try {
+        const res = await resetPassword(email, code, password);
+        console.log(res);
+        if (res.status == 404) {
+          toast.error("Email is not associated with any user !");
+        } else if (res.status == 200) {
+          toast.success("Password changed successfully !");
+          navigate("/login");
+        } else if (res.status == 500) {
+          toast.error("Recovery code is incorrect or expired !");
+        } else {
+          toast.error("Something went wrong !");
+        }
+        setIsLoading(false);
+      } catch (err) {
+        console.error(err);
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <div className="mx-8 md:mx-20">
+      <Loader isLoading={isLoading} />
       <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
         <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 ">
           <div className="mt-10 md:mt-0 pl-0 pr-0 md:pl-10 lg:pl-20 xl:pl-48 md:pr-20 md:mb-20">
             <h1 className="htext text-3xl md:text-5xl">Recover Account</h1>
             <p className="btext text-xl md:text-2xl mt-6">
               Enter the recovery code sent to your email address.
+              <span className="text-md text-red-600">({email})</span>
             </p>
             <form className="mt-10">
               <p className="btext font-semibold text-xl">Recovery Code</p>
@@ -36,6 +97,9 @@ const RecoverAccount = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
               />
+              {error.code && (
+                <h1 className="text-red-600 mb-6">{error.code}</h1>
+              )}
 
               <p className="btext font-semibold mt-5 text-xl">New Password</p>
               <Input.Password
@@ -44,6 +108,9 @@ const RecoverAccount = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {error.password && (
+                <h1 className="text-red-600 mb-6">{error.password}</h1>
+              )}
 
               <p className="btext font-semibold mt-5 text-xl">
                 Confirm Password
@@ -54,6 +121,9 @@ const RecoverAccount = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
+              {error.confirmPassword && (
+                <h1 className="text-red-600 mb-6">{error.confirmPassword}</h1>
+              )}
             </form>
 
             <Button

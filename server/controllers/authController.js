@@ -357,7 +357,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const wm = await WM.findOne({ email });
 
   if (!user && !wm) {
-    res.status(404);
+    res.status(404).json({ message: "User not Found", status: 404 });
     throw new Error(
       "This email is not registered with any account. Please Try Again"
     );
@@ -365,7 +365,11 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   if (user) {
     if (user.status === "user-pending") {
-      res.status(400);
+      res.status(400).json({
+        message: "Please verify your email first",
+        status: 400,
+        type: "notVerified",
+      });
       throw new Error("Please verify your email first");
     }
 
@@ -374,36 +378,37 @@ const forgotPassword = asyncHandler(async (req, res) => {
       await token.deleteOne();
     }
 
-    let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-
-    const hashedToken = crypto
-      .createHash("sha256")
-      .update(resetToken)
-      .digest("hex");
+    const resetToken = Math.random().toString(36).slice(2, 8).toUpperCase();
 
     await new Token({
       userId: user._id,
-      token: hashedToken,
+      token: resetToken,
       createdAt: Date.now(),
       expiresAt: Date.now() + 30 * (60 * 1000), //30 minutes
     }).save();
 
-    const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
-
     const message = `
   <h2>Hello ${user.name}</h2>
-  <p>Kindly click on the url below to reset your password</p>
-  <p>The link is valid for 30 minutes !!!</p>
+  <p>Below is the code to reset password for your account.</p>
+  <p>The code is valid for 30 minutes.</p>
 
-  <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+  <h3>Recovery Code: ${resetToken}</h3>
 
   <p>Regards...</p>
   <p>Capital Autos</p>
 `;
 
-    const subject = "Password Reset Request for Capital Autos Account";
+    const subject = "Recovery code to reset password for Capital Autos Account";
     const send_to = user.email;
     const sent_from = process.env.EMAIL_USER;
+
+    try {
+      await sendEmail(subject, message, send_to, sent_from);
+      res.status(200).json({ success: true, message: "Reset Email Sent" });
+    } catch (error) {
+      res.status(500);
+      throw new Error("Email could not be Sent. Please try again !");
+    }
   }
 
   if (wm) {
@@ -412,89 +417,104 @@ const forgotPassword = asyncHandler(async (req, res) => {
       await token.deleteOne();
     }
 
-    let resetToken = crypto.randomBytes(32).toString("hex") + wm._id;
-
-    const hashedToken = crypto
-      .createHash("sha256")
-      .update(resetToken)
-      .digest("hex");
+    const resetToken = Math.random().toString(36).slice(2, 8).toUpperCase();
 
     await new Token({
       userId: wm._id,
-      token: hashedToken,
+      token: resetToken,
       createdAt: Date.now(),
       expiresAt: Date.now() + 30 * (60 * 1000), //30 minutes
     }).save();
 
-    const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
-
     const message = `
   <h2>Hello ${wm.name}</h2>
-  <p>Kindly click on the url below to reset your password</p>
-  <p>The link is valid for 30 minutes !!!</p>
+  <p>Below is the code to reset password for your account.</p>
+  <p>The code is valid for 30 minutes.</p>
 
-  <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+  <h3>Recovery Code: ${resetToken}</h3>
 
   <p>Regards...</p>
   <p>Capital Autos</p>
 `;
 
-    const subject = "Password Reset Request for Capital Autos Account";
+    const subject = "Recovery code to reset password for Capital Autos Account";
     const send_to = wm.email;
     const sent_from = process.env.EMAIL_USER;
-  }
 
-  try {
-    await sendEmail(subject, message, send_to, sent_from);
-    res.status(200).json({ success: true, message: "Reset Email Sent" });
-  } catch (error) {
-    res.status(500);
-    throw new Error("Email could not be Sent. Please try again !");
+    try {
+      await sendEmail(subject, message, send_to, sent_from);
+      res.status(200).json({ success: true, message: "Reset Email Sent" });
+    } catch (error) {
+      res.status(500);
+      throw new Error("Email could not be Sent. Please try again !");
+    }
   }
 });
 
 const resetPassword = asyncHandler(async (req, res) => {
-  const { password } = req.body;
+  const { email, password } = req.body;
   const { resetToken } = req.params;
 
-  const hashedToken = crypto
-    .createHash("sha256")
-    .update(resetToken)
-    .digest("hex");
+  if (!email || !password || !resetToken) {
+    res.status(400);
+    throw new Error("Please provide email, password and reset token");
+  }
+
+  const user = await User.findOne({
+    email,
+  });
+
+  const wm = await WM.findOne({
+    email,
+  });
+
+  if (!user && !wm) {
+    res.status(404);
+    throw new Error("User not Found");
+  }
 
   const userToken = await Token.findOne({
-    token: hashedToken,
+    token: resetToken,
     expiresAt: { $gt: Date.now() },
   });
 
   if (!userToken) {
-    res.status(500);
+    res
+      .status(500)
+      .json({ message: "Invalid or Expired Token !", status: 500 });
     throw new Error("Invalid or Expired Token !");
   }
 
-  const user = await User.findOne({ _id: userToken.userId });
-  const wm = await WM.findOne({ _id: userToken.userId });
-  if (!user && !wm) {
-    res.status(500);
-    throw new Error("User not found");
+  const wmToken = await Token.findOne({
+    token: resetToken,
+    expiresAt: { $gt: Date.now() },
+  });
+
+  if (!wmToken) {
+    res
+      .status(500)
+      .json({ message: "Invalid or Expired Token !", status: 500 });
+    throw new Error("Invalid or Expired Token !");
   }
 
-  if (user) {
-    user.password = password;
-    await user.save();
-    await userToken.deleteOne();
-    res.status(200).json({
-      message: "Password Reset Successful, Please Login",
-    });
+  if (userToken) {
+    const user = await User.findById(userToken.userId);
+    if (user) {
+      user.password = password;
+      await user.save();
+      await userToken.deleteOne();
+      res.status(200).json({ message: "Password Reset Successful" });
+    }
   }
 
-  if (wm) {
-    wm.password = password;
-    await wm.save();
-    await userToken.deleteOne();
-    res.status(200).json({
-      message: "Password Reset Successful, Please Login",
-    });
+  if (wmToken) {
+    const wm = await WM.findById(wmToken.userId);
+    if (wm) {
+      wm.password = password;
+      await wm.save();
+      await wmToken.deleteOne();
+      res.status(200).json({ message: "Password Reset Successful" });
+    }
   }
 });
 
