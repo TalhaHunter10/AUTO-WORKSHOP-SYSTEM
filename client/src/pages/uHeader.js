@@ -1,13 +1,34 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, Button } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
+import { checkLoginStatus, logout } from "../services/authService";
+import { DownOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
-const UHeader = () => {
+const UHeader = ({ onScrollToAboutUs }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(true);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    LoginStatus();
+  }, [navigate]);
+
+  const LoginStatus = async () => {
+    try {
+      const res = await checkLoginStatus();
+      if (res.data.verified) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        localStorage.removeItem("user");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -15,6 +36,23 @@ const UHeader = () => {
 
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    setIsProfileMenuOpen(false);
+    try {
+      const res = await logout();
+      if (res.status === 200) {
+        setIsLoggedIn(false);
+        localStorage.removeItem("user");
+        toast.success("Logged out successfully");
+        navigate("/login");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -46,7 +84,7 @@ const UHeader = () => {
               <p className="bg-neutral-50 h-10 md:h-14 transform  skew-x-[-45deg] w-[20%]"></p>
               <div className="strip bg-neutral-400 h-10 md:h-14 align-center content-center w-full -ml-7">
                 {/*Navbar*/}
-                <div className="pl-20 flex justify-end xl:justify-evenly">
+                <div className="pl-20 flex justify-end xl:justify-evenly items-center">
                   <div className=" justify-evenly align-center w-full hidden xl:flex">
                     <Link to="/">
                       <p className="text-stone-200 hover:text-blue-600 duration-300">
@@ -55,7 +93,7 @@ const UHeader = () => {
                         </span>
                       </p>
                     </Link>
-                    <Link to="">
+                    <Link to="" onClick={onScrollToAboutUs}>
                       <p className="text-stone-200 hover:text-blue-600 duration-300">
                         <span className="htext text-xs md:text-lg lg:text-xl">
                           ABOUT US
@@ -169,24 +207,45 @@ const UHeader = () => {
                       </Link>
                     ) : (
                       <div>
-                        <p
-                          onClick={toggleProfileMenu}
-                          className="cursor-pointer flex bg-transparent border-none text-stone-200 hover:scale-105 duration-300"
-                        >
-                          {!isProfileMenuOpen ? (
+                        <div>
+                          <span
+                            onClick={toggleProfileMenu}
+                            className="cursor-pointer flex items-center bg-transparent text-stone-200 w-16 relative group"
+                          >
+                            {/* Profile Image */}
                             <img
-                              src="/icons/userwhite.png"
-                              className="w-8 h-8"
+                              src={
+                                isProfileMenuOpen
+                                  ? "/icons/userblue.png"
+                                  : "/icons/userwhite.png"
+                              }
+                              className={`w-8 h-8 md:w-12 md:h-12 transition-opacity duration-300 ${
+                                !isProfileMenuOpen &&
+                                "opacity-100 group-hover:opacity-0"
+                              }`}
                               alt="user"
                             />
-                          ) : (
-                            <img
-                              src="/icons/userblue.png"
-                              className="w-8 h-8"
-                              alt="user"
+                            {!isProfileMenuOpen && (
+                              <img
+                                src="/icons/userblue.png"
+                                className="absolute w-8 h-8 md:w-12 md:h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                alt="user-blue"
+                              />
+                            )}
+
+                            {/* DownOutlined icon */}
+                            <DownOutlined
+                              className={`transition-colors duration-300 ${
+                                isProfileMenuOpen
+                                  ? "text-blue-500"
+                                  : "text-white group-hover:text-blue-500"
+                              } text-sm md:text-base`}
+                              style={{
+                                transition: "color 0.3s ease",
+                              }}
                             />
-                          )}
-                        </p>
+                          </span>
+                        </div>
                         <Menu
                           className={`${
                             !isProfileMenuOpen ? "hidden" : "block"
@@ -194,7 +253,7 @@ const UHeader = () => {
                           style={{
                             width: 200,
                             position: "absolute",
-                            zIndex: 1,
+                            zIndex: 2000,
                             marginTop: 15,
                             marginLeft: -150,
                             borderRadius: 10,
@@ -210,7 +269,7 @@ const UHeader = () => {
                           <Menu.Item
                             className="htext"
                             key="2"
-                            onClick={toggleProfileMenu}
+                            onClick={handleLogout}
                           >
                             Logout
                           </Menu.Item>
