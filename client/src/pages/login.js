@@ -4,11 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/button";
 import { login } from "../services/authService";
 import { toast } from "react-toastify";
+import { Loader } from "../components/loader";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,24 +22,25 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = {}
+    const validationErrors = {};
 
     if (!email.trim()) {
-      validationErrors.email = 'Email is required !';
+      validationErrors.email = "Email is required !";
     } else if (!/^[a-zA-Z0-9.]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(email)) {
-      validationErrors.email = 'Enter a Valid Email !';
+      validationErrors.email = "Enter a Valid Email !";
     }
 
     if (!password.trim()) {
-      validationErrors.password = 'Password is required !';
+      validationErrors.password = "Password is required !";
     } else if (password.length < 6) {
-      validationErrors.password = 'Password must be atleast 6 characters long !';
+      validationErrors.password =
+        "Password must be atleast 6 characters long !";
     }
 
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-
+      setIsLoading(true);
       try {
         const response = await login(email, password);
         if (response.status === 200) {
@@ -47,7 +50,9 @@ const Login = () => {
         } else {
           toast.error(response.message);
         }
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.error(error);
       }
     }
@@ -55,6 +60,7 @@ const Login = () => {
 
   return (
     <div className="md:mx-20">
+      <Loader isLoading={isLoading} />
       <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
         <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 ">
           <div className="mt-10 md:mt-0 pl-0 pr-0 md:pl-10 lg:pl-20 xl:pl-48 md:pr-20 md:mb-20">
@@ -71,7 +77,9 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {errors.email && <h1 className='text-red-600 mb-6'>{errors.email}</h1>}
+              {errors.email && (
+                <h1 className="text-red-600 mb-6">{errors.email}</h1>
+              )}
 
               <p className="btext font-semibold mt-5 text-xl">Password</p>
               <Input.Password
@@ -80,7 +88,9 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {errors.password && <h1 className='text-red-600 mb-6'>{errors.password}</h1>}
+              {errors.password && (
+                <h1 className="text-red-600 mb-6">{errors.password}</h1>
+              )}
             </form>
             <p
               to=""

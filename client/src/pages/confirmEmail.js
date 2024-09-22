@@ -4,6 +4,7 @@ import Button from "../components/button";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { checkLoginStatus, confirmEmail } from "../services/authService";
 import { toast } from "react-toastify";
+import { Loader } from "../components/loader";
 
 const ConfirmEmail = () => {
   const navigate = useNavigate();
@@ -14,13 +15,12 @@ const ConfirmEmail = () => {
 
   useEffect(() => {
     isLoggedIn();
-  }
-  , []);
+  }, []);
 
   const isLoggedIn = async () => {
     try {
       const res = await checkLoginStatus();
-      if(res.verified){
+      if (res.data.verified) {
         navigate("/");
       }
     } catch (err) {
@@ -40,13 +40,13 @@ const ConfirmEmail = () => {
     if (Object.keys(validationErrors).length === 0) {
       setIsLoading(true);
       try {
-        const res = await confirmEmail(email,code);
+        const res = await confirmEmail(email, code);
         if (res.status === 400) {
-          if(res.type === "notFound"){
+          if (res.type === "notFound") {
             toast.error("Email not found. Please register again !");
-          } else if(res.type === "inValid"){
+          } else if (res.type === "inValid") {
             toast.error("Invalid verification code !");
-          } else if (res.type === "expired"){
+          } else if (res.type === "expired") {
             toast.error("Verification code expired. Please register again !");
           } else {
             toast.error("Something went wrong. Please try again !");
@@ -64,6 +64,7 @@ const ConfirmEmail = () => {
   };
   return (
     <div className="mx-8 md:mx-20">
+      <Loader isLoading={isLoading} />
       <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
         <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 ">
           <div className="mt-10 md:mt-0 pl-0 pr-0 md:pl-10 lg:pl-20 xl:pl-48 md:pr-20 md:mb-20">
@@ -81,7 +82,9 @@ const ConfirmEmail = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
               />
-              {errors.code && <h1 className="text-red-600 mb-6">{errors.code}</h1>}
+              {errors.code && (
+                <h1 className="text-red-600 mb-6">{errors.code}</h1>
+              )}
 
               <Button
                 text="Confirm"

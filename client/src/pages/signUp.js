@@ -33,7 +33,7 @@ const SignUp = () => {
   const isLoggedIn = async () => {
     try {
       const res = await checkLoginStatus();
-      if(res.verified){
+      if (res.data.verified) {
         navigate("/");
       }
     } catch (err) {
