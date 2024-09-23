@@ -6,7 +6,11 @@ import { checkLoginStatus, logout } from "../services/authService";
 import { DownOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 
-const UHeader = ({ onScrollToAboutUs }) => {
+const UHeader = ({
+  onScrollToAboutUs,
+  onScrollToContactUs,
+  onScrollToServices,
+}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(true);
@@ -100,7 +104,7 @@ const UHeader = ({ onScrollToAboutUs }) => {
                         </span>
                       </p>
                     </Link>
-                    <Link to="">
+                    <Link to="" onClick={onScrollToServices}>
                       <p className="text-stone-200 hover:text-blue-600 duration-300">
                         <span className="htext text-xs md:text-lg lg:text-xl">
                           SERVICES
@@ -121,7 +125,7 @@ const UHeader = ({ onScrollToAboutUs }) => {
                         </span>
                       </p>
                     </Link>
-                    <Link to="">
+                    <Link to="" onClick={onScrollToContactUs}>
                       <p className="text-stone-200 hover:text-blue-600 duration-300">
                         <span className="htext text-xs md:text-lg lg:text-xl">
                           CONTACT US
@@ -157,21 +161,30 @@ const UHeader = ({ onScrollToAboutUs }) => {
                       <Menu.Item
                         className="htext text-center"
                         key="1"
-                        onClick={toggleCollapsed}
+                        onClick={() => {
+                          navigate("/");
+                          toggleCollapsed();
+                        }}
                       >
                         HOME
                       </Menu.Item>
                       <Menu.Item
                         className="htext text-center"
                         key="2"
-                        onClick={toggleCollapsed}
+                        onClick={() => {
+                          onScrollToAboutUs();
+                          toggleCollapsed();
+                        }}
                       >
                         ABOUT US
                       </Menu.Item>
                       <Menu.Item
                         className="htext text-center"
                         key="3"
-                        onClick={toggleCollapsed}
+                        onClick={() => {
+                          onScrollToServices();
+                          toggleCollapsed();
+                        }}
                       >
                         SERVICES
                       </Menu.Item>

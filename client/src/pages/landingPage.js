@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../components/button";
 
-const LandingPage = () => {
+const LandingPage = ({ aboutUsRef, servicesRef }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -125,7 +125,10 @@ const LandingPage = () => {
       </div>
 
       {/* About Us SECTION */}
-      <div className="g-6 flex h-full flex-wrap justify-center lg:justify-between mb-20">
+      <div
+        ref={aboutUsRef}
+        className="g-6 flex h-full flex-wrap justify-center lg:justify-between mb-20"
+      >
         <div className="shrink-1 mb-12 grow-0 basis-auto  xl:w-6/12 sm:px-20">
           <img
             src="/images/landingImage1.png"
@@ -164,6 +167,7 @@ const LandingPage = () => {
 
       {/* Services Section */}
       <div
+        ref={servicesRef}
         className={`my-20 ${!isMobile ? "bg-services" : ""}`}
         style={{ width: "100vw" }}
       >

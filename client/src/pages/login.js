@@ -59,7 +59,7 @@ const Login = () => {
   };
 
   return (
-    <div className="md:mx-20">
+    <div className="mx-5 md:mx-20">
       <Loader isLoading={isLoading} />
       <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
         <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 ">

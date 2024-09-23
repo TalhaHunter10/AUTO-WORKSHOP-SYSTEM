@@ -2,9 +2,9 @@ import { InstagramFilled } from "@ant-design/icons";
 import { FacebookFilled } from "@ant-design/icons";
 import { TwitterSquareFilled } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-const UFooter = () => {
+const UFooter = ({ contactUsRef }) => {
   return (
-    <div className="bg-stone-700 text-center md:text-left">
+    <div ref={contactUsRef} className="bg-stone-700 text-center md:text-left">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
@@ -69,14 +69,22 @@ const UFooter = () => {
               </h2>
               <ul className="text-stone-200 dark:text-stone-200 font-medium btext">
                 <li className="mb-4">
-                <Link to="/privacy" className="hover:underline" target="blank">
+                  <Link
+                    to="/privacy"
+                    className="hover:underline"
+                    target="blank"
+                  >
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link to="/termsandconditions" className="hover:underline" target="blank"> 
+                  <Link
+                    to="/termsandconditions"
+                    className="hover:underline"
+                    target="blank"
+                  >
                     Terms & Conditions
-                </Link>
+                  </Link>
                 </li>
               </ul>
             </div>
