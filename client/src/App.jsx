@@ -23,6 +23,7 @@ import { useRef } from "react";
 import TermsAndConditions from "./pages/termsAndConditions";
 import PrivacyPolicy from "./pages/privacyPolicy";
 import axios from "axios";
+import UserProfile from "./pages/userProfile";
 
 axios.defaults.withCredentials = true;
 
@@ -90,6 +91,7 @@ function App() {
             <Route path="/confirm-email/:email" element={<ConfirmEmail />} />
             <Route path="/termsandconditions" element={<TermsAndConditions />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/userprofile" element={<UserProfile />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
           <div className="userfooter">

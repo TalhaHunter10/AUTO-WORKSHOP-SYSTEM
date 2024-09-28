@@ -30,6 +30,9 @@ app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
 
+const userRoutes = require("./routes/userRoutes");
+app.use("/api/user", userRoutes);
+
 //port
 const port = process.env.PORT || 8008;
 

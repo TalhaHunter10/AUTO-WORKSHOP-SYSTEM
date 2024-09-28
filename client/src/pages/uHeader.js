@@ -275,7 +275,10 @@ const UHeader = ({
                           <Menu.Item
                             className="htext"
                             key="1"
-                            onClick={toggleProfileMenu}
+                            onClick={() => {
+                              navigate("/userprofile");
+                              toggleProfileMenu();
+                            }}
                           >
                             My Profile
                           </Menu.Item>
