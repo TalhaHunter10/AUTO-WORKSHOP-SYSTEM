@@ -25,7 +25,7 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
         }}
       >
         <div className={`${!isMobile ? "overlay" : ""}`}>
-          <div className="flex px-20 lg:px-28 h-[85vh] lg:items-center">
+          <div className="flex px-10 lg:px-28 h-[85vh] lg:items-center">
             <h1 className="htext text-3xl lg:text-6xl text-blue-600 lg:text-stone-200 lg:w-[50%] leading-tight mt-14 lg:mt-0">
               CAPITAL AUTOMOBILE ENGINEERS
               <h2 className="btext text-xl lg:text-3xl  text-blue-600 lg:text-stone-200 mt-6">
@@ -38,14 +38,14 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
                 />
                 <div className="flex items-center">
                   <img src="/icons/phone.png" alt="arrow" className="w-8 h-8" />
-                  <h1 className="htext text-xl lg:text-3xl ml-2">
+                  <h1 className="htext text-xl lg:text-3xl md:ml-2">
                     +92 333 5188 007
                   </h1>
                 </div>
               </div>
             </h1>
           </div>
-          <div className="flex flex-wrap justify-around mx-20 lg:mx-48 bg-stone-200 rounded-md -mt-64 lg:-mt-20 2xl:mt-0 p-5 md:p-0">
+          <div className="flex flex-wrap justify-around mx-10 lg:mx-48 bg-stone-200 rounded-md -mt-64 lg:-mt-20 2xl:mt-0 p-5 md:p-0">
             <div className="flex items-center my-6">
               <img
                 src="/icons/location.png"
