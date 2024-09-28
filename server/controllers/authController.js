@@ -322,26 +322,32 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new Error("Please add old and new password");
   }
 
-  const passwordIsCorrect = await bcrypt.compare(oldpassword, user.password);
+  
 
   if (user) {
+    const passwordIsCorrect = await bcrypt.compare(oldpassword, user.password);
     if (passwordIsCorrect) {
       user.password = password;
       await user.save();
 
       res.status(200).json({ message: "Password Change Successful" });
     } else {
-      res.status(400);
+      res
+        .status(400)
+        .json({ message: "Old password is incorrect", status: 400 });
       throw new Error("Old password is incorrect");
     }
   } else if (wm) {
+    const passwordIsCorrect = await bcrypt.compare(oldpassword, wm.password);
     if (passwordIsCorrect) {
       wm.password = password;
       await wm.save();
 
       res.status(200).json({ message: "Password Change Successful" });
     } else {
-      res.status(400);
+      res
+        .status(400)
+        .json({ message: "Old password is incorrect", status: 400 });
       throw new Error("Old password is incorrect");
     }
   } else {
