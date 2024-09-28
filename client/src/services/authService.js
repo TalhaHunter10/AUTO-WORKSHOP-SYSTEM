@@ -71,3 +71,18 @@ export const resetPassword = async (email, resetToken, password) => {
     return error.response.data;
   }
 };
+
+export const updatePassword = async (oldpassword, password) => {
+  try {
+    const response = await axios.patch(
+      `${backendUrl}/api/auth/changepassword`,
+      {
+        oldpassword,
+        password,
+      }
+    );
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
