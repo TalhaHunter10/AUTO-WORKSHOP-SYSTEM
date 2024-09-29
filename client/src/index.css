@@ -74,3 +74,16 @@ code {
   );
   z-index: 100;
 }
+
+.ant-tabs-nav-list {
+  width: 100%;
+  justify-content: center;
+  ;
+}
+
+@media (max-width: 768px) {
+  .ant-tabs-nav-list {
+    width: auto;
+    justify-content: center;
+  }
+}
