@@ -24,6 +24,7 @@ import TermsAndConditions from "./pages/termsAndConditions";
 import PrivacyPolicy from "./pages/privacyPolicy";
 import axios from "axios";
 import UserProfile from "./pages/userProfile";
+import ServicesDetails from "./pages/servicesDetails";
 
 axios.defaults.withCredentials = true;
 
@@ -92,7 +93,8 @@ function App() {
             <Route path="/termsandconditions" element={<TermsAndConditions />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/userprofile" element={<UserProfile />} />
-            <Route path="*" element={<PageNotFound />} />
+            <Route path="/services" element={<ServicesDetails />} />
+            <Route path="*" element={<PageNotFound />} />\
           </Routes>
           <div className="userfooter">
             <UFooter contactUsRef={contactUsRef} />
