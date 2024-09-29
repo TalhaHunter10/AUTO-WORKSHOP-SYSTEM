@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "../components/button";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = ({ aboutUsRef, servicesRef }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -17,6 +19,7 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
 
   return (
     <div>
+      {/* Cover section */}
       <div
         className={`${!isMobile ? "bg-landing" : ""}`}
         style={{
@@ -180,7 +183,7 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
           At Capital Autos, we provide a full range of automotive services to
           keep your vehicle in top condition.
         </p>
-        <div className="flex flex-wrap justify-around mt-14 space-y-16 sm:space-y-0 pb-20">
+        <div className="flex flex-wrap justify-around mt-14 space-y-16 sm:space-y-0">
           <div className="md:w-[17%] px-20 sm:p-0">
             <img
               src="/images/services1.png"
@@ -204,7 +207,7 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
 
           <div className="md:w-[17%] px-20 sm:p-0">
             <img
-              src="/images/services3.png"
+              src="/images/services5.png"
               className="w-full "
               alt="Service Three"
             />
@@ -226,7 +229,7 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
 
           <div className="md:w-[17%] px-20 sm:p-0">
             <img
-              src="/images/services5.png"
+              src="/images/services3.png"
               className="w-full "
               alt="Service Five"
             />
@@ -235,6 +238,29 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
             </p>
           </div>
         </div>
+        <div className="py-8 text-center">
+          <Button
+            text="VIEW SERVICES DETAILS"
+            style="htext text-base md:text-lg px-6 py-2 rounded-md my-6 mx-auto"
+            onClick={() => {
+              navigate("/services");
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Book Appointment Section */}
+      <div className=" border-2 border-blue-500 p-10 rounded-lg ml-10 mr-10 my-10">
+        <h1 className="md:text-3xl btext md:pl-8">
+          Want to book appointment here at{" "}
+          <span className="htext text-blue-500">Capital Autos?</span>
+        </h1>
+        <p className=" text-right mt-4 mr-8">
+          <Button
+            text="Book Appointment"
+            style="htext text-sm md:text-xl px-4 md:px-6 py-2 rounded-md"
+          />
+        </p>
       </div>
     </div>
   );
