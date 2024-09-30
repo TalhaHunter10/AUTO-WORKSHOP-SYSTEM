@@ -74,7 +74,17 @@ const UHeader = ({
           <div className="">
             <div className="bookingbutton hidden  lg:flex justify-end  ">
               <p className="bg-neutral-50 h-6 md:h-12 transform  skew-x-[-45deg] w-[12%]"></p>
-              <p className="bg-blue-500 h-6 md:h-12 w-[60%] lg:w-[35%] -ml-6 text-center content-center cursor-pointer text-stone-200 hover:text-blue-500 hover:bg-stone-200 duration-300">
+              <p
+                onClick={() => {
+                  if (isLoggedIn) {
+                    navigate("/appointment");
+                  } else {
+                    toast.error("Login to book appointment !");
+                    navigate("/login");
+                  }
+                }}
+                className="bg-blue-500 h-6 md:h-12 w-[60%] lg:w-[35%] -ml-6 text-center content-center cursor-pointer text-stone-200 hover:text-blue-500 hover:bg-stone-200 duration-300"
+              >
                 <Link to="">
                   <span className="htext text-xs md:text-lg lg:text-xl ">
                     BOOK SERVICE NOW
@@ -118,7 +128,7 @@ const UHeader = ({
                         </span>
                       </p>
                     </Link>
-                    <Link to="">
+                    <Link to="/parts">
                       <p className="text-stone-200 hover:text-blue-600 duration-300">
                         <span className="htext text-xs md:text-lg lg:text-xl">
                           PARTS
@@ -198,7 +208,10 @@ const UHeader = ({
                       <Menu.Item
                         className="htext text-center"
                         key="5"
-                        onClick={toggleCollapsed}
+                        onClick={() => {
+                          navigate("/parts");
+                          toggleCollapsed();
+                        }}
                       >
                         PARTS
                       </Menu.Item>
@@ -285,6 +298,26 @@ const UHeader = ({
                           <Menu.Item
                             className="htext"
                             key="2"
+                            onClick={() => {
+                              navigate("/appointment");
+                              toggleProfileMenu();
+                            }}
+                          >
+                            Book Appointment
+                          </Menu.Item>
+                          <Menu.Item
+                            className="htext"
+                            key="3"
+                            onClick={() => {
+                              navigate("/myappointments");
+                              toggleProfileMenu();
+                            }}
+                          >
+                            My Appointments
+                          </Menu.Item>
+                          <Menu.Item
+                            className="htext"
+                            key="4"
                             onClick={handleLogout}
                           >
                             Logout

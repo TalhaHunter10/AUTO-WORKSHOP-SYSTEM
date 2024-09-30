@@ -25,6 +25,9 @@ import PrivacyPolicy from "./pages/privacyPolicy";
 import axios from "axios";
 import UserProfile from "./pages/userProfile";
 import ServicesDetails from "./pages/servicesDetails";
+import Parts from "./pages/parts";
+import BookAppointment from "./pages/bookAppointment";
+import AppointmentHistory from "./pages/appointmentHistory";
 
 axios.defaults.withCredentials = true;
 
@@ -94,6 +97,9 @@ function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/services" element={<ServicesDetails />} />
+            <Route path="/parts" element={<Parts />} />
+            <Route path="/appointment" element={<BookAppointment />} />
+            <Route path="/myappointments" element={<AppointmentHistory />} />
             <Route path="*" element={<PageNotFound />} />\
           </Routes>
           <div className="userfooter">
