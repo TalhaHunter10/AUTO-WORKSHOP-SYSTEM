@@ -1,10 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "../components/button";
 import { useNavigate } from "react-router-dom";
+import { checkLoginStatus } from "../services/authService";
+import { toast } from "react-toastify";
 
 const LandingPage = ({ aboutUsRef, servicesRef }) => {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    LoginStatus();
+  }, []);
+
+  const LoginStatus = async () => {
+    try {
+      const res = await checkLoginStatus();
+      if (res.data.verified) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        localStorage.removeItem("user");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,10 +43,7 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
       {/* Cover section */}
       <div
         className={`${!isMobile ? "bg-landing" : ""}`}
-        style={{
-          width: "100vw",
-          height: "100vh",
-        }}
+        style={{ width: "100vw", height: "100vh" }}
       >
         <div className={`${!isMobile ? "overlay" : ""}`}>
           <div className="flex px-10 lg:px-28 h-[85vh] lg:items-center">
@@ -36,6 +54,14 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
               </h2>
               <div className="flex flex-wrap mt-10 lg:mt-28 space-y-5 2xl:space-y-0">
                 <Button
+                  onClick={() => {
+                    if (isLoggedIn) {
+                      navigate("/appointment");
+                    } else {
+                      toast.error("Login to book appointment !");
+                      navigate("/login");
+                    }
+                  }}
                   text="MAKE APPOINTMENT"
                   style="htext rounded-none text-base lg:text-2xl px-10 py-3 mr-10 "
                 />
@@ -257,6 +283,14 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
         </h1>
         <p className=" text-right mt-4 mr-8">
           <Button
+            onClick={() => {
+              if (isLoggedIn) {
+                navigate("/appointment");
+              } else {
+                toast.error("Login to book appointment !");
+                navigate("/login");
+              }
+            }}
             text="Book Appointment"
             style="htext text-sm md:text-xl px-4 md:px-6 py-2 rounded-md"
           />

@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, Button } from "antd";
-import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  MenuOutlined,
+  CloseOutlined,
+  UserOutlined,
+  LockOutlined,
+  PlusSquareOutlined,
+  FormOutlined,
+  UnorderedListOutlined,
+} from "@ant-design/icons";
 import { checkLoginStatus, logout } from "../services/authService";
 import { DownOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
@@ -85,7 +93,17 @@ const UHeader = ({
                 }}
                 className="bg-blue-500 h-6 md:h-12 w-[60%] lg:w-[35%] -ml-6 text-center content-center cursor-pointer text-stone-200 hover:text-blue-500 hover:bg-stone-200 duration-300"
               >
-                <Link to="">
+                <Link
+                  to=""
+                  onClick={() => {
+                    if (isLoggedIn) {
+                      navigate("/appointment");
+                    } else {
+                      toast.error("Login to book appointment !");
+                      navigate("/login");
+                    }
+                  }}
+                >
                   <span className="htext text-xs md:text-lg lg:text-xl ">
                     BOOK SERVICE NOW
                   </span>
@@ -277,7 +295,7 @@ const UHeader = ({
                             !isProfileMenuOpen ? "hidden" : "block"
                           } bg-neutral-400`}
                           style={{
-                            width: 200,
+                            width: 210,
                             position: "absolute",
                             zIndex: 2000,
                             marginTop: 15,
@@ -292,8 +310,9 @@ const UHeader = ({
                               navigate("/userprofile");
                               toggleProfileMenu();
                             }}
+                            style={{ color: "#fff" }}
                           >
-                            My Profile
+                            <UserOutlined style={{ fontSize: 16 }} /> My Profile
                           </Menu.Item>
                           <Menu.Item
                             className="htext"
@@ -302,8 +321,10 @@ const UHeader = ({
                               navigate("/appointment");
                               toggleProfileMenu();
                             }}
+                            style={{ color: "#fff" }}
                           >
-                            Book Appointment
+                            <FormOutlined style={{ fontSize: 16 }} /> Book
+                            Appointment
                           </Menu.Item>
                           <Menu.Item
                             className="htext"
@@ -312,15 +333,18 @@ const UHeader = ({
                               navigate("/myappointments");
                               toggleProfileMenu();
                             }}
+                            style={{ color: "#fff" }}
                           >
+                            <UnorderedListOutlined style={{ fontSize: 16 }} />{" "}
                             My Appointments
                           </Menu.Item>
                           <Menu.Item
                             className="htext"
                             key="4"
                             onClick={handleLogout}
+                            style={{ color: "#fff" }}
                           >
-                            Logout
+                            <LockOutlined style={{ fontSize: 16 }} /> Logout
                           </Menu.Item>
                         </Menu>
                       </div>
