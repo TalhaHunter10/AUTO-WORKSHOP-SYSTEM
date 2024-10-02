@@ -93,17 +93,7 @@ const UHeader = ({
                 }}
                 className="bg-blue-500 h-6 md:h-12 w-[60%] lg:w-[35%] -ml-6 text-center content-center cursor-pointer text-stone-200 hover:text-blue-500 hover:bg-stone-200 duration-300"
               >
-                <Link
-                  to=""
-                  onClick={() => {
-                    if (isLoggedIn) {
-                      navigate("/appointment");
-                    } else {
-                      toast.error("Login to book appointment !");
-                      navigate("/login");
-                    }
-                  }}
-                >
+                <Link to="">
                   <span className="htext text-xs md:text-lg lg:text-xl ">
                     BOOK SERVICE NOW
                   </span>
