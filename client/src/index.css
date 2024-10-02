@@ -87,3 +87,17 @@ code {
     justify-content: center;
   }
 }
+.ant-menu-item-selected {
+  background-color: #2563eb !important;
+  color: #e7e5e4 !important;
+}
+
+.elevation {
+
+  box-shadow: 0px 0px 17.54px rgba(0, 0, 0, 0.3),
+    /* Top shadow */
+    0px 0px 17.54px rgba(0, 0, 0, 0.3),
+    /* Left shadow */
+    0px 0px 17.54px rgba(0, 0, 0, 0.3);
+  /* Right shadow */
+}
