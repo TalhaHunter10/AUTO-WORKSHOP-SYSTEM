@@ -33,6 +33,9 @@ app.use("/api/auth", authRoutes);
 const userRoutes = require("./routes/userRoutes");
 app.use("/api/user", userRoutes);
 
+const appointmentRoutes = require("./routes/appointmentRoutes");
+app.use("/api/appointment", appointmentRoutes);
+
 //port
 const port = process.env.PORT || 8008;
 
