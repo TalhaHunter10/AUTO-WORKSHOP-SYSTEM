@@ -12,3 +12,23 @@ export const createAppointment = async (data) => {
     return error.response.data;
   }
 };
+
+export const getAppointments = async () => {
+  try {
+    const response = await axios.get(`${backendUrl}/api/appointment/get`);
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const deleteAppointment = async (id) => {
+  try {
+    const response = await axios.delete(
+      `${backendUrl}/api/appointment/delete/${id}`
+    );
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
