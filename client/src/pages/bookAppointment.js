@@ -18,7 +18,6 @@ const BookAppointment = () => {
     carNumber: "",
     details: "",
     date: "",
-    additionalNote: "",
   });
 
   useEffect(() => {
@@ -77,8 +76,6 @@ const BookAppointment = () => {
     }
 
     setError(validationErrors);
-
-    setData({ ...data, additionalNote: data.additionalNote.trim() });
 
     if (Object.keys(validationErrors).length === 0) {
       setLoading(true);
@@ -184,15 +181,6 @@ const BookAppointment = () => {
             className="w-full h-12 text-lg"
           />
           {error.date && <h1 className="text-red-600 mb-6">{error.date}</h1>}
-
-          <p className="text-lg mt-3 mb-1">Additional Note</p>
-          <Input
-            placeholder="Enter any additional notes here"
-            className="h-12 text-lg font-semibold"
-            onChange={(e) =>
-              setData({ ...data, additionalNote: e.target.value })
-            }
-          />
 
           <div className="text-center">
             <Button
