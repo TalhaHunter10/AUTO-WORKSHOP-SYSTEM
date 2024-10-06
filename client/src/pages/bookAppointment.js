@@ -5,6 +5,7 @@ import { DatePicker, Image, Input } from "antd";
 import Button from "../components/button";
 import { toast } from "react-toastify";
 import { createAppointment } from "../services/appointmentService";
+import moment from "moment";
 
 const BookAppointment = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,8 +40,14 @@ const BookAppointment = () => {
     }
   };
 
-  const onChange = (date, dateString) => {
-    setData({ ...data, date: dateString });
+  const onChange = (date) => {
+    const today = moment().startOf("day"); // Get today's date at the start of the day
+
+    if (date && date.isAfter(today)) {
+      setData({ ...data, date: date.format("YYYY-MM-DD") }); // Save formatted date
+    } else {
+      toast.error("Please select a future date");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -171,7 +178,11 @@ const BookAppointment = () => {
           )}
 
           <p className="text-lg mt-3 mb-1">Date</p>
-          <DatePicker onChange={onChange} className="w-full h-12 text-lg" />
+          <DatePicker
+            onChange={onChange}
+            value={data.date ? moment(data.date, "YYYY-MM-DD") : null}
+            className="w-full h-12 text-lg"
+          />
           {error.date && <h1 className="text-red-600 mb-6">{error.date}</h1>}
 
           <p className="text-lg mt-3 mb-1">Additional Note</p>
