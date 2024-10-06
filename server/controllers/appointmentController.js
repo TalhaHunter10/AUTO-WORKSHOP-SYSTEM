@@ -50,4 +50,33 @@ const createAppointment = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createAppointment };
+const getAppointments = asyncHandler(async (req, res) => {
+  const user = req.user._id;
+  const appointments = await Appointment.find({ userId: user }).sort({
+    createdAt: -1,
+  });
+  res.json(appointments);
+});
+
+const deleteAppointment = asyncHandler(async (req, res) => {
+  const user = req.user._id;
+  const appointmentId = req.params.id;
+  const appointment = await Appointment.findOne({
+    userId: user,
+    _id: appointmentId,
+  });
+
+  if (!appointment) {
+    res.status(404).json({
+      message: "Appointment not found",
+      status: 404,
+      type: "notFound",
+    });
+    throw new Error("Appointment not found");
+  }
+
+  await appointment.deleteOne();
+  res.status(200).json({ message: "Appointment removed" });
+});
+
+module.exports = { createAppointment, getAppointments, deleteAppointment };
