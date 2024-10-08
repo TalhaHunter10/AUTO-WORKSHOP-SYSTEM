@@ -6,7 +6,7 @@ import {
   getAppointments,
 } from "../services/appointmentService";
 import { Modal, Space, Table, Tag, Tooltip } from "antd";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EyeOutlined, LikeOutlined } from "@ant-design/icons";
 import { Loader } from "../components/loader";
 import { toast } from "react-toastify";
 import Button from "../components/button";
@@ -138,13 +138,16 @@ const AppointmentHistory = () => {
         let color;
         switch (value) {
           case "Pending":
-            color = "blue";
+            color = "purple";
             break;
           case "Approved":
             color = "green";
             break;
           case "Rejected":
             color = "red";
+            break;
+          case "Completed":
+            color = "blue";
             break;
           default:
             color = "gray";
@@ -161,10 +164,10 @@ const AppointmentHistory = () => {
       },
     },
     {
-      title: "Action",
+      title: "Actions",
       key: "action",
       render: (_, record) => (
-        <span className="flex justify-around">
+        <span className="flex justify-around w-32">
           <Tooltip title="View">
             <EyeOutlined
               className="cursor-pointer hover:text-blue-500"
@@ -177,6 +180,20 @@ const AppointmentHistory = () => {
               className="cursor-pointer hover:text-red-500"
               style={{ fontSize: 24 }}
               onClick={() => handleDelete(record._id)}
+            />
+          </Tooltip>
+
+          <Tooltip title="Rate">
+            <LikeOutlined
+              className="cursor-pointer hover:text-green-500"
+              style={{ fontSize: 24 }}
+              onClick={() => {
+                if (record.status !== "Completed") {
+                  toast.error("Appointment is not completed yet");
+                } else {
+                  toast.success("Thank you for rating the appointment");
+                }
+              }}
             />
           </Tooltip>
         </span>
