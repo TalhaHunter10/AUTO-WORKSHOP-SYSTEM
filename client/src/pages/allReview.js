@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getReviews } from "../services/reviewService";
 import {
+  AlertOutlined,
+  CarryOutOutlined,
   ClockCircleOutlined,
   DislikeOutlined,
   LikeOutlined,
@@ -37,7 +39,7 @@ const AllReviews = () => {
       <h1 className="text-blue-500 htext text-4xl text-center my-10">
         Reviews
       </h1>
-      <div className="mx-5 md:mx-[25%] min-h-[60vh]">
+      <div className="mx-5 md:mx-[25%] my-5 min-h-[60vh]">
         {loading ? (
           <h1 className="text-center text-blue-500 text-2xl">Loading...</h1>
         ) : (
@@ -52,7 +54,7 @@ const AllReviews = () => {
                   key={review._id}
                   className="elevation bg-white shadow-md rounded-lg p-8 my-4 btext font-semibold bg-blue-100"
                 >
-                  <div className="flex  items-center">
+                  <div className="md:flex  items-center">
                     <p className="text-blue-500 text-2xl md:text-3xl htext italic mt-3 mr-0 md:mr-8">
                       {review.review}
                     </p>
@@ -60,7 +62,7 @@ const AllReviews = () => {
                       src="/icons/quotes.png"
                       preview={false}
                       width={100}
-                      className="ml-10 -mb-6 hidden md:flex"
+                      className="md:ml-10 -mb-6 hidden md:flex"
                     />
                   </div>
                   <div className="flex items-center text-sky-800">
@@ -72,7 +74,7 @@ const AllReviews = () => {
                       <p className="text-lg  font-bold btext mt-4">
                         {review.userId.name}
                       </p>
-                      <p className="text-xs font-bold btext">
+                      <p className="text-xs  btext ">
                         Member Since:{" "}
                         {moment(review.userId.createdAt).format("MMMM, YYYY")}
                       </p>
@@ -85,11 +87,12 @@ const AllReviews = () => {
                   </p>
 
                   <Divider />
-                  <p className="text-gray-500 text-sm btext  ">
-                    Appointment Subject
+                  <p className="text-sky-800 text-base btext mb-2 ">
+                    <CarryOutOutlined /> Appointment Subject
                   </p>
-                  <h1 className="text-2xl font-bold btext text-sky-800 text-center">
-                    {review.appointmentId.subject}
+                  <h1 className="text-xl font-bold btext text-neutral-800 italic text-center">
+                    {review.appointmentId.subject.charAt(0).toUpperCase() +
+                      review.appointmentId.subject.slice(1)}
                   </h1>
                 </div>
               ))
