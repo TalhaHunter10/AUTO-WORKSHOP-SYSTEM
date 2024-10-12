@@ -48,7 +48,7 @@ const getAllReviews = asyncHandler(async (req, res) => {
   const reviews = await Review.find()
     .populate({
       path: "userId",
-      select: "name",
+      select: "name createdAt",
     })
     .populate({
       path: "appointmentId",

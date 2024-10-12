@@ -36,21 +36,11 @@ const UFooter = ({ contactUsRef }) => {
                 Our Services
               </h2>
               <ul className="text-stone-200 dark:text-stone-200 font-medium btext">
-                <li className="mb-4 ">
-                  Body Work
-                </li>
-                <li className="mb-4">
-                  Electrical
-                </li>
-                <li className="mb-4">
-                    Air Conditioning
-                </li>
-                <li className="mb-4">
-                    Alloy Repairing
-                </li>
-                <li>
-                    Mechanical
-                </li>
+                <li className="mb-4 ">Body Work</li>
+                <li className="mb-4">Electrical</li>
+                <li className="mb-4">Air Conditioning</li>
+                <li className="mb-4">Alloy Repairing</li>
+                <li>Mechanical</li>
               </ul>
             </div>
             <div>
@@ -58,6 +48,15 @@ const UFooter = ({ contactUsRef }) => {
                 Resources
               </h2>
               <ul className="text-stone-200 dark:text-stone-200 font-medium btext">
+                <li className="mb-4">
+                  <Link
+                    to="/reviews"
+                    className="hover:underline"
+                    target="blank"
+                  >
+                    Reviews
+                  </Link>
+                </li>
                 <li className="mb-4">
                   <Link
                     to="/privacy"

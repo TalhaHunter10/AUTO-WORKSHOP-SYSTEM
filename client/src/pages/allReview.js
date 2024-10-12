@@ -8,7 +8,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
-import { Image } from "antd";
+import { Divider, Image } from "antd";
 
 const AllReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -35,8 +35,7 @@ const AllReviews = () => {
   return (
     <div>
       <h1 className="text-blue-500 htext text-4xl text-center my-10">
-        Reviews <LikeOutlined className="text-green-500" />
-        <DislikeOutlined className="text-red-500" />
+        Reviews
       </h1>
       <div className="mx-5 md:mx-[25%] min-h-[60vh]">
         {loading ? (
@@ -51,37 +50,47 @@ const AllReviews = () => {
               reviews.map((review) => (
                 <div
                   key={review._id}
-                  className="elevation bg-white shadow-md rounded-lg p-8 my-4 btext font-semibold"
+                  className="elevation bg-white shadow-md rounded-lg p-8 my-4 btext font-semibold bg-blue-100"
                 >
-                  <h1 className="text-xl font-bold htext text-sky-800">
-                    {review.appointmentId.subject}
-                  </h1>
-                  <span className="text-gray-500 text-sm btext ">
-                    (Appointment Subject)
-                  </span>
-                  <p className="text-blue-500 text-xl md:text-2xl btext text-right italic mt-3 mr-8">
+                  <div className="flex  items-center">
+                    <p className="text-blue-500 text-2xl md:text-3xl htext italic mt-3 mr-0 md:mr-8">
+                      {review.review}
+                    </p>
                     <Image
-                      src="/icons/startquotes.png"
+                      src="/icons/quotes.png"
                       preview={false}
-                      width={25}
-                      className="-mt-1"
-                    />{" "}
-                    {review.review}
-                    <Image
-                      src="/icons/endquotes.png"
-                      preview={false}
-                      width={25}
-                      className="ml-2 -mb-3"
+                      width={100}
+                      className="ml-10 -mb-6 hidden md:flex"
                     />
-                  </p>
-                  <p className="text-lg text-neutral-900 italic font-bold btext text-right mt-2">
-                    {review.userId.name}
-                  </p>
+                  </div>
+                  <div className="flex items-center text-sky-800">
+                    <UserOutlined
+                      className="text-3xl"
+                      style={{ fontSize: 32, marginRight: 10 }}
+                    />
+                    <div className="-mt-3">
+                      <p className="text-lg  font-bold btext mt-4">
+                        {review.userId.name}
+                      </p>
+                      <p className="text-xs font-bold btext">
+                        Member Since:{" "}
+                        {moment(review.userId.createdAt).format("MMMM, YYYY")}
+                      </p>
+                    </div>
+                  </div>
 
-                  <p className="text-gray-900 text-sm text-right mt-6">
+                  <p className="text-gray-500 text-sm text-right mt-6">
                     <ClockCircleOutlined style={{ marginRight: 5 }} />
                     {moment(review.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
                   </p>
+
+                  <Divider />
+                  <p className="text-gray-500 text-sm btext  ">
+                    Appointment Subject
+                  </p>
+                  <h1 className="text-2xl font-bold btext text-sky-800 text-center">
+                    {review.appointmentId.subject}
+                  </h1>
                 </div>
               ))
             )}
