@@ -3,6 +3,7 @@ import Button from "../components/button";
 import { useNavigate } from "react-router-dom";
 import { checkLoginStatus } from "../services/authService";
 import { toast } from "react-toastify";
+import { LikeOutlined } from "@ant-design/icons";
 
 const LandingPage = ({ aboutUsRef, servicesRef }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -83,9 +84,15 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
               />
               <p className="htext text-xl text-gray-600 mt-2">
                 LOCATION
-                <p className="btext text-lg mt-1 hover:text-blue-600 hover:scale-105 duration-300 transform cursor-pointer">
-                  View our location{" "}
-                </p>
+                <a
+                  href="https://maps.app.goo.gl/9Gq5hqzHt9329CGv6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p className="btext text-lg mt-1 hover:text-blue-600 hover:scale-105 duration-300 transform cursor-pointer">
+                    View our location{" "}
+                  </p>
+                </a>
               </p>
             </div>
             <div className="flex items-center my-6">
@@ -275,24 +282,23 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
         </div>
       </div>
 
-      {/* Book Appointment Section */}
+      {/* View Reviews Section */}
       <div className=" border-2 border-blue-500 p-10 rounded-lg ml-10 mr-10 my-10">
         <h1 className="md:text-3xl btext md:pl-8">
-          Want to book appointment here at{" "}
+          Want to know what our clients say about{" "}
           <span className="htext text-blue-500">Capital Autos?</span>
         </h1>
         <p className=" text-right mt-4 mr-8">
           <Button
-            onClick={() => {
-              if (isLoggedIn) {
-                navigate("/appointment");
-              } else {
-                toast.error("Login to book appointment !");
-                navigate("/login");
-              }
-            }}
-            text="Book Appointment"
+            text={
+              <>
+                <LikeOutlined style={{ marginRight: "8px" }} /> View Reviews
+              </>
+            }
             style="htext text-sm md:text-xl px-4 md:px-6 py-2 rounded-md"
+            onClick={() => {
+              navigate("/reviews");
+            }}
           />
         </p>
       </div>
