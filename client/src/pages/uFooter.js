@@ -27,7 +27,7 @@ const UFooter = ({ contactUsRef }) => {
               </h2>
               <p className="mb-2">+92-333-5188007</p>
 
-              <p>auto-ai-workshop@outlook.com</p>
+              <p>auto.ai.workshop@gmail.com</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -37,29 +37,19 @@ const UFooter = ({ contactUsRef }) => {
               </h2>
               <ul className="text-stone-200 dark:text-stone-200 font-medium btext">
                 <li className="mb-4 ">
-                  <a href="#" className="hover:underline">
-                    Body Work
-                  </a>
+                  Body Work
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Electrical
-                  </a>
+                  Electrical
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">
                     Air Conditioning
-                  </a>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">
                     Alloy Repairing
-                  </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">
                     Mechanical
-                  </a>
                 </li>
               </ul>
             </div>
