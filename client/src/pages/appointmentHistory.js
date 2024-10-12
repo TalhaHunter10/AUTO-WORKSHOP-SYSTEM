@@ -5,11 +5,12 @@ import {
   deleteAppointment,
   getAppointments,
 } from "../services/appointmentService";
-import { Modal, Space, Table, Tag, Tooltip } from "antd";
+import { Input, Modal, Space, Table, Tag, Tooltip } from "antd";
 import { DeleteOutlined, EyeOutlined, LikeOutlined } from "@ant-design/icons";
 import { Loader } from "../components/loader";
 import { toast } from "react-toastify";
 import Button from "../components/button";
+import { createReview } from "../services/reviewService";
 
 const AppointmentHistory = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,10 +19,56 @@ const AppointmentHistory = () => {
   const [appointments, setAppointments] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [isRatingModalVisible, setIsRatingModalVisible] = useState(false);
+  const [error, setError] = useState(null);
+  const [review, setReview] = useState("");
 
   const handleView = (appointment) => {
     setSelectedAppointment(appointment);
     setIsModalVisible(true);
+  };
+
+  const handleRating = async (appointment) => {
+    setSelectedAppointment(appointment);
+    setIsRatingModalVisible(true);
+  };
+
+  const handleReviewChange = (e) => {
+    setReview(e.target.value);
+  };
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    const validationError = [];
+
+    if (!review) {
+      validationError.review = "Review is required";
+    } else if (review.length < 10) {
+      validationError.review = "Review must be at least 10 characters long";
+    }
+    setError(validationError);
+
+    if (Object.keys(validationError).length == 0) {
+      setLoading(true);
+      try {
+        const res = await createReview({
+          appointmentId: selectedAppointment._id,
+          review: review,
+        });
+        if (res.status === 201) {
+          toast.success("Review added successfully");
+          setIsRatingModalVisible(false);
+        } else if (res.status === 400 && res.type === "alreadyExists") {
+          toast.error("Review already exists for this appointment");
+        } else {
+          toast.error("Failed to add review");
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Error occurred while adding review");
+      }
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -191,7 +238,7 @@ const AppointmentHistory = () => {
                 if (record.status !== "Completed") {
                   toast.error("Appointment is not completed yet");
                 } else {
-                  toast.success("Thank you for rating the appointment");
+                  handleRating(record);
                 }
               }}
             />
@@ -284,6 +331,50 @@ const AppointmentHistory = () => {
                 {selectedAppointment.status}
               </span>
             </p>
+          </div>
+        )}
+      </Modal>
+
+      <Modal
+        title="Add Review"
+        onCancel={() => setIsRatingModalVisible(false)}
+        footer={null}
+        open={isRatingModalVisible}
+      >
+        {selectedAppointment && (
+          <div className="space-y-3 text-lg text-neutral-900 my-8">
+            <p className="flex justify-between">
+              <strong>Subject</strong>
+              <span>{selectedAppointment.subject}</span>
+            </p>
+            <div className="">
+              <p>
+                <strong>Review</strong>
+              </p>
+              <Input.TextArea
+                className="w-full border border-gray-300 rounded-md p-2 font-semibold text-lg"
+                onChange={handleReviewChange}
+              ></Input.TextArea>
+              {error && error.review && (
+                <p className="text-red-500 text-sm">{error.review}</p>
+              )}
+            </div>
+            <p className="text-sm text-red-500">
+              Note: This can not be undone.
+            </p>
+            <Space className="flex justify-end">
+              <button
+                onClick={() => setIsRatingModalVisible(false)}
+                className="px-4 h-10 text-xl rounded-md bg-red-500 text-white"
+              >
+                Cancel
+              </button>
+              <Button
+                text="Submit"
+                onClick={handleReviewSubmit}
+                style="px-4 h-10 text-xl rounded-md"
+              />
+            </Space>
           </div>
         )}
       </Modal>
