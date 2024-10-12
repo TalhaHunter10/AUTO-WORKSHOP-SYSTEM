@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Image } from "antd";
 import { RightCircleOutlined } from "@ant-design/icons";
 import Button from "../components/button";
+import { useNavigate } from "react-router-dom";
 
 const tabList = [
   {
@@ -349,6 +350,7 @@ const contentList = {
 };
 
 const ServicesDetails = () => {
+  const navigate = useNavigate();
   const [activeTabKey1, setActiveTabKey1] = useState("tab1");
   const onTab1Change = (key) => {
     setActiveTabKey1(key);
@@ -383,6 +385,7 @@ const ServicesDetails = () => {
           <Button
             text="Book Appointment"
             style="htext text-sm md:text-xl px-4 md:px-6 py-2 rounded-md"
+            onClick={() => navigate("/appointment")}
           />
         </p>
       </div>
