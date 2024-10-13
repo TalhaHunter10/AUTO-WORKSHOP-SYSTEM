@@ -1,12 +1,10 @@
 const WMFooter = () => {
   return (
     <div>
-      <footer className="footer">
-        <div className="container">
-          <span className="text-muted">
-            All Rights Reserved 2021 @AutoWorkshopSystem
-          </span>
-        </div>
+      <footer className="">
+        <p className="h-[5vh] flex justify-center items-center font-semibold btext text-sky-800 bg-blue-100">
+          All Rights Reserved 2024 @Auto_AI_Workshop_System
+        </p>
       </footer>
     </div>
   );
