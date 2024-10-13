@@ -203,7 +203,7 @@ const login = asyncHandler(async (req, res) => {
 const wm = await WM.findOne({ email, status: "wm" });
 
 if(wm){
-  const passwordIsCorrect = await bcrypt.compare(password, wm.password);
+  const passwordIsCorrect = password === wm.password;
 
   if (!passwordIsCorrect) {
     res.status(400).json({ message: "Invalid email or password !",status:400, type: "inValid" });
