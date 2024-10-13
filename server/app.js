@@ -39,6 +39,9 @@ app.use("/api/appointment", appointmentRoutes);
 const reviewRoutes = require("./routes/reviewRoutes");
 app.use("/api/review", reviewRoutes);
 
+const wmRoutes = require("./routes/wmRoutes");
+app.use("/api/wm", wmRoutes);
+
 //port
 const port = process.env.PORT || 8008;
 
