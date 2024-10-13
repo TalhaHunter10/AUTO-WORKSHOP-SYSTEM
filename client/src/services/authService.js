@@ -86,3 +86,12 @@ export const updatePassword = async (oldpassword, password) => {
     return error.response.data;
   }
 };
+
+export const registerWM = async (wm) => {
+  try {
+    const response = await axios.post(`${backendUrl}/api/auth/register_wm`, wm);
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
