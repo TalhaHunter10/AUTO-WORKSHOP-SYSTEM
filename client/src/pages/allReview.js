@@ -12,9 +12,11 @@ import {
 import moment from "moment";
 import { Divider, Image } from "antd";
 
+
 const AllReviews = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     fetchReview();
@@ -25,7 +27,6 @@ const AllReviews = () => {
     try {
       const response = await getReviews();
       setReviews(response.data);
-      console.log(response.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
