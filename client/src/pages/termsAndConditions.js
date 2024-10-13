@@ -33,7 +33,7 @@ const TermsAndConditions = () => {
 
             <h1 className="htext text-lg md:text-2xl text-blue-600 pt-5">9. Contact Us</h1>
             <p className="pt-5 btext text-lg md:text-2xl text-gray-800 text-justify">If you have any questions about these terms and conditions, please contact us at
-                <a href="mailto:auto-ai-workshop@outlook.com" className="text-blue-600"> auto-ai-workshop@outlook.com</a>.
+                <a href="mailto:auto.ai.workshop@gmail.com" className="text-blue-600"> auto.ai.workshop@gmail.com</a>.
             </p>
 
 

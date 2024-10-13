@@ -34,7 +34,7 @@ const PrivacyPolicy = () => {
         <p className="pt-5 btext text-lg md:text-2xl text-gray-800 text-justify">Although most changes are likely to be minor, Auto AI Workshop may change its Privacy Policy from time to time, and at Auto AI Workshop's sole discretion. We encourage visitors to frequently check this page for any changes to its Privacy Policy. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.</p>
 
         <h1 className="htext text-lg md:text-2xl text-blue-600 pt-5">6. Contact Information</h1>
-        <p className="pt-5 btext text-lg md:text-2xl text-gray-800 text-justify">If you have any questions about our Privacy Policy, please contact us via email at <a href="mailto:auto-ai-workshop@outlook.com" className="text-blue-600"> auto-ai-workshop@outlook.com</a>.</p>
+        <p className="pt-5 btext text-lg md:text-2xl text-gray-800 text-justify">If you have any questions about our Privacy Policy, please contact us via email at <a href="mailto:auto.ai.workshop@gmail.com" className="text-blue-600"> auto.ai.workshop@gmail.com</a>.</p>
 
     </div>
     );
