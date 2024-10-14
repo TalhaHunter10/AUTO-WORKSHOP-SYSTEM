@@ -5,7 +5,8 @@ import { checkLoginStatus, logout } from "../services/authService";
 import { toast } from "react-toastify";
 import { Card } from "antd";
 import AllReviews from "./allReview";
-import AccountManagement from "./AdminPages.js/accountManagement";
+import AccountManagement from "./AdminPages/accountManagement";
+import FinancialManagement from "./AdminPages/financialManagement";
 
 const WmLandingPage = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -105,7 +106,7 @@ const WmLandingPage = () => {
     tab1: <></>,
     tab2: <></>,
     tab3: <></>,
-    tab4: <></>,
+    tab4: <FinancialManagement />,
     tab5: <AllReviews />,
     tab6: <AccountManagement />,
   };
