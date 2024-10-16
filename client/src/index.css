@@ -101,6 +101,15 @@ code {
     0px 0px 17.54px rgba(0, 0, 0, 0.3);
   /* Right shadow */
 }
+.elevationlight {
+
+  box-shadow: 0px 0px 17.54px rgba(0, 0, 0, 0.1),
+    /* Top shadow */
+    0px 0px 17.54px rgba(0, 0, 0, 0.1),
+    /* Left shadow */
+    0px 0px 17.54px rgba(0, 0, 0, 0.1);
+  /* Right shadow */
+}
 .ant-table-thead .ant-table-cell {
   background-color: #3b82f6 !important;
   color: white !important;
@@ -120,4 +129,31 @@ code {
   font-family: done;
   font-size: 20px !important;
   color: #3b82f6 !important;
+}
+::-webkit-scrollbar {
+  width: 8px;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* You can change the color */
+  border-radius: 10px;
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #5a85c5;
+  /* You can change the color */
+  border-radius: 6px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #929291;
+  /* You can change the color */
+
 }
