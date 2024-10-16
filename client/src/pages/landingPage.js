@@ -103,7 +103,10 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
               />
               <p className="htext text-xl text-gray-600 mt-2">
                 AVAILABLE 24/7
-                <p className="btext text-lg mt-1 hover:text-blue-600 hover:scale-105 duration-300 transform cursor-pointer">
+                <p
+                  className="btext text-lg mt-1 hover:text-blue-600 hover:scale-105 duration-300 transform cursor-pointer"
+                  onClick={() => navigate("/chatbot")}
+                >
                   Artifical Intelligence CHATBOT{" "}
                 </p>
               </p>
@@ -111,6 +114,7 @@ const LandingPage = ({ aboutUsRef, servicesRef }) => {
             <Button
               text="AI CHAT ASSISTANT"
               style="htext text-lg px-6 py-2 rounded-md my-6"
+              onClick={() => navigate("/chatbot")}
             />
           </div>
         </div>

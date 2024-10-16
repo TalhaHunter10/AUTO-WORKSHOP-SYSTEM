@@ -129,7 +129,7 @@ const UHeader = ({
                         </span>
                       </p>
                     </Link>
-                    <Link to="">
+                    <Link to="/chatbot">
                       <p className="text-stone-200 hover:text-blue-600 duration-300">
                         <span className="htext text-xs md:text-lg lg:text-xl">
                           CHAT
@@ -209,7 +209,10 @@ const UHeader = ({
                       <Menu.Item
                         className="htext text-center"
                         key="4"
-                        onClick={toggleCollapsed}
+                        onClick={() => {
+                          toggleCollapsed();
+                          navigate("/chatbot");
+                        }}
                       >
                         CHAT
                       </Menu.Item>

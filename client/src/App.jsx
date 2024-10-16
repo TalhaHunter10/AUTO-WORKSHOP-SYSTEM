@@ -31,6 +31,7 @@ import AppointmentHistory from "./pages/appointmentHistory";
 import AllReviews from "./pages/allReview";
 import { checkLoginStatus } from "./services/authService";
 import WmLandingPage from "./pages/wmLandingPage";
+import Chatbot from "./pages/chatbot";
 
 axios.defaults.withCredentials = true;
 
@@ -125,6 +126,7 @@ function App() {
             <Route path="/appointment" element={<BookAppointment />} />
             <Route path="/myappointments" element={<AppointmentHistory />} />
             <Route path="/reviews" element={<AllReviews />} />
+            <Route path="/chatbot" element={<Chatbot />} />
             <Route path="*" element={<PageNotFound />} />\
           </Routes>
           <div className="userfooter">
