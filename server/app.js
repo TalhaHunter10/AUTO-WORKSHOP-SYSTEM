@@ -42,6 +42,12 @@ app.use("/api/review", reviewRoutes);
 const wmRoutes = require("./routes/wmRoutes");
 app.use("/api/wm", wmRoutes);
 
+const financialRoutes = require("./routes/financialRoutes");
+app.use("/api/financial", financialRoutes);
+
+const chatRoutes = require("./routes/chatRoutes");
+app.use("/api/chat", chatRoutes);
+
 //port
 const port = process.env.PORT || 8008;
 
