@@ -17,8 +17,6 @@ const createAppointment = asyncHandler(async (req, res) => {
     requestedDate: date,
   });
 
-  console.log(existingAppointment);
-
   if (existingAppointment) {
     res.status(400).json({
       message: "Appointment already exists",

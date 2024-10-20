@@ -165,7 +165,7 @@ const AccountManagement = () => {
               onClick={showModal}
             />
           </div>
-          <div className=" md:my-10 overflow-x-auto">
+          <div className=" md:mt-4 md:mb-10 overflow-x-auto">
             <Table
               columns={columns}
               dataSource={managers.map((item, index) => ({
