@@ -366,6 +366,14 @@ const UserProfile = () => {
           <Button
             text="Book Appointment"
             style="htext text-sm md:text-xl px-4 md:px-6 py-2 rounded-md"
+            onClick={() => {
+              if (isLoggedIn) {
+                navigate("/appointment");
+              } else {
+                toast.error("Login to book appointment !");
+                navigate("/login");
+              }
+            }}
           />
         </p>
       </div>

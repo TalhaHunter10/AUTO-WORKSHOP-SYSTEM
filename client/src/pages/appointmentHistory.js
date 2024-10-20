@@ -251,7 +251,7 @@ const AppointmentHistory = () => {
   return (
     <div>
       <Loader loading={loading} />
-      <div className="m-5 md:mx-32 md:mt-16 md:flex md:justify-between text-center">
+      <div className="m-5 md:mx-32 md:mt-4 md:flex md:justify-between text-center">
         <h1 className="htext text-2xl md:text-4xl text-center md:text-left text-blue-500 mb-6 md:mb-0">
           My Appointments
         </h1>
