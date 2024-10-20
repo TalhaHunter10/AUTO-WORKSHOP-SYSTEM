@@ -110,8 +110,8 @@ const Chatbot = () => {
   };
 
   return (
-    <div style={style} className="h-[85vh] flex justify-center items-center">
-      <div className="h-[82vh] w-[90%] md:w-[60%] bg-neutral-50/90 elevationlight rounded-t-2xl">
+    <div style={style} className="h-[82vh] flex justify-center items-center">
+      <div className="h-[79vh] w-[90%] md:w-[60%] bg-neutral-50/90 elevationlight rounded-t-2xl">
         <div className="flex justify-center items-center">
           <Image
             src="/images/logo.png"
@@ -123,7 +123,7 @@ const Chatbot = () => {
             CHATBOT
           </h1>
         </div>
-        <div className=" h-[60vh] md:h-[65vh] md:my-5 mx-4 md:mx-20 ">
+        <div className=" h-[55vh] md:h-[60vh] md:my-5 mx-4 md:mx-20 ">
           {ischatLoading ? (
             <div className="flex justify-center items-center h-full">
               <Spin
@@ -132,7 +132,7 @@ const Chatbot = () => {
             </div>
           ) : (
             <div className="">
-              <div className="h-[55vh] md:h-[60vh] overflow-y-auto mb-3">
+              <div className="h-[47vh] md:h-[52vh] overflow-y-auto mb-3">
                 {chat.length > 0 ? (
                   <ScrollableFeed forceScroll={true}>
                     {chat.map((message, index) => (
@@ -186,7 +186,7 @@ const Chatbot = () => {
                     )}
                   </ScrollableFeed>
                 ) : (
-                  <div className="mt-5 md:mt-20 mx-2 md:mx-10 flex flex-col shadow-md md:shadow-2xl p-4 md:p-20 rounded-lg">
+                  <div className="mt-5 md:mt-10 mx-2 md:mx-10 flex flex-col shadow-md md:shadow-2xl p-4 md:p-20 rounded-lg">
                     <h1 className="htext text-blue-500 text-2xl">
                       Welcome to the Auto AI Chatbot!
                     </h1>
@@ -212,7 +212,7 @@ const Chatbot = () => {
                       handleSendMessage(e);
                     }
                   }}
-                  className={` rounded-lg h-12 btext font-semibold text-lg ${
+                  className={` rounded-lg h-12 btext font-semibold text-lg border-4 ${
                     showError ? "border-red-500" : ""
                   } `}
                 />
