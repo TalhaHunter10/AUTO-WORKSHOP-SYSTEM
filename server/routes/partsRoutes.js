@@ -10,7 +10,7 @@ const {
 const router = express.Router();
 
 router.post("/add", protect, addPart);
-router.get("/getall", protect, getAllParts);
+router.get("/getall", getAllParts);
 router.delete("/deletepart/:id", protect, deletePart);
 router.put("/updatepart/:id", protect, updatePart);
 
