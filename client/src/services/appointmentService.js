@@ -32,3 +32,21 @@ export const deleteAppointment = async (id) => {
     return error.response.data;
   }
 };
+
+export const getLatestAppointments = async () => {
+  try {
+    const response = await axios.get(`${backendUrl}/api/appointment/getlatest`);
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getAllAppointments = async () => {
+  try {
+    const response = await axios.get(`${backendUrl}/api/appointment/getall`);
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
