@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
 const bodyparser = require("body-parser");
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 const errorHandler = require("./middlewares/errorMiddleware");
 require("dotenv").config();
 //app
@@ -47,6 +47,9 @@ app.use("/api/financial", financialRoutes);
 
 const chatRoutes = require("./routes/chatRoutes");
 app.use("/api/chat", chatRoutes);
+
+const partsRoutes = require("./routes/partsRoutes");
+app.use("/api/parts", partsRoutes);
 
 //port
 const port = process.env.PORT || 8008;
