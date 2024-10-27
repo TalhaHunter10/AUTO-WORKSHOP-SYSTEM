@@ -297,7 +297,7 @@ const FinancialManagement = () => {
             onClick={showModal}
           />
         </div>
-        <div>
+        <div className="overflow-x-auto">
           <Table
             columns={columns}
             dataSource={financialData}
