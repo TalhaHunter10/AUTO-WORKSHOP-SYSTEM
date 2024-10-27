@@ -77,4 +77,31 @@ const deleteAppointment = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Appointment removed" });
 });
 
-module.exports = { createAppointment, getAppointments, deleteAppointment };
+const getLatestAppointments = asyncHandler(async (req, res) => {
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  const appointments = await Appointment.find({
+    createdAt: { $gte: thirtyDaysAgo },
+  })
+    .sort({ createdAt: -1 })
+    .populate("userId", "name phoneno");
+
+  res.status(200).json(appointments);
+});
+
+const getAllAppointments = asyncHandler(async (req, res) => {
+  const appointments = await Appointment.find({})
+    .sort({ createdAt: -1 })
+    .populate("userId", "name phoneno");
+
+  res.status(200).json(appointments);
+});
+
+module.exports = {
+  createAppointment,
+  getAppointments,
+  deleteAppointment,
+  getLatestAppointments,
+  getAllAppointments,
+};
