@@ -34,7 +34,7 @@ const PartsListingContainer = ({ Part }) => {
       {Part.map((item) => (
         <div
           key={item._id}
-          className="w-80 transform overflow-hidden rounded-lg bg-neutral-500 text-stone-200 m-4 md:mx-12 md:my-8 shadow-xl"
+          className="w-80 transform overflow-hidden rounded-lg bg-neutral-500 text-stone-200 m-4 md:mx-12 md:my-8 elevationlight"
         >
           <img
             className="h-48 w-full object-cover object-center md:h-48 bg-stone-200"

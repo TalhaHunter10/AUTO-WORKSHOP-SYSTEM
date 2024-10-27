@@ -91,9 +91,15 @@ const Parts = () => {
         </div>
       </div>
 
-      <div className="">
-        <PartsListingContainer Part={parts.slice(0, visibleCount)} />
-      </div>
+      {parts.length > 0 ? (
+        <div className="">
+          <PartsListingContainer Part={parts.slice(0, visibleCount)} />
+        </div>
+      ) : (
+        <h1 className="text-center htext text-2xl text-red-500 my-20">
+          NO PARTS FOUND
+        </h1>
+      )}
       {visibleCount < parts.length && ( // Show button only if there are more parts to load
         <div className="flex justify-center mt-4">
           <Button
