@@ -11,6 +11,7 @@ import { Loader } from "../components/loader";
 import { toast } from "react-toastify";
 import Button from "../components/button";
 import { createReview } from "../services/reviewService";
+import moment from "moment";
 
 const AppointmentHistory = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -175,7 +176,8 @@ const AppointmentHistory = () => {
       title: "Issued Date",
       dataIndex: "IssuedDate",
       key: "issuedDate",
-      render: (date) => (date ? new Date(date).toLocaleDateString() : "N/A"),
+      render: (date) =>
+        date ? moment(date).format("DD MMM, YY | HH:mm") : "N/A",
     },
     {
       title: "Status",

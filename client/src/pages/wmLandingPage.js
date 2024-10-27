@@ -8,6 +8,7 @@ import AllReviews from "./allReview";
 import AccountManagement from "./AdminPages/accountManagement";
 import FinancialManagement from "./AdminPages/financialManagement";
 import PartsManagement from "./AdminPages/partsManagement";
+import ManageAppointments from "./AdminPages/manageAppointments";
 
 const WmLandingPage = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -105,7 +106,7 @@ const WmLandingPage = () => {
 
   const contentList = {
     tab1: <></>,
-    tab2: <></>,
+    tab2: <ManageAppointments />,
     tab3: <PartsManagement />,
     tab4: <FinancialManagement />,
     tab5: <AllReviews />,
