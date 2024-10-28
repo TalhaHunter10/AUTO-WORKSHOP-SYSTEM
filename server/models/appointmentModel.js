@@ -26,7 +26,7 @@ const appointmentSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  IssuedDate: {
+  issuedDate: {
     type: Date,
     required: false,
   },

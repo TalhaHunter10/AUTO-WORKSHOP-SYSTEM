@@ -174,7 +174,7 @@ const AppointmentHistory = () => {
     },
     {
       title: "Issued Date",
-      dataIndex: "IssuedDate",
+      dataIndex: "issuedDate",
       key: "issuedDate",
       render: (date) =>
         date ? moment(date).format("DD MMM, YY | HH:mm") : "N/A",
