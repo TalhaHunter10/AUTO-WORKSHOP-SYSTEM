@@ -50,3 +50,20 @@ export const getAllAppointments = async () => {
     return error.response.data;
   }
 };
+
+export const updateAppointmentStatus = async (
+  id,
+  additionalNote,
+  status,
+  issuedDate
+) => {
+  try {
+    const response = await axios.patch(
+      `${backendUrl}/api/appointment/updatestatus/${id}`,
+      { additionalNote, status, issuedDate }
+    );
+    return response;
+  } catch (error) {
+    return error.response.data;
+  }
+};
