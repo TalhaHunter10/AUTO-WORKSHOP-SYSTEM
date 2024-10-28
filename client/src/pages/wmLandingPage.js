@@ -47,6 +47,7 @@ const WmLandingPage = () => {
         navigate("/");
       } else {
         toast.error("Something went wrong");
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);
