@@ -4,10 +4,12 @@ import { Loader } from "../../components/loader";
 import {
   getAllAppointments,
   getLatestAppointments,
+  updateAppointmentStatus,
 } from "../../services/appointmentService";
 import { EditOutlined } from "@ant-design/icons";
 import { DatePicker, Form, Input, Modal, Select, Table, Tag } from "antd";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 const ManageAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -15,6 +17,7 @@ const ManageAppointments = () => {
   const [latestAppointmentsFlag, setLatestAppointmentsFlag] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     getAppointments();
@@ -57,17 +60,15 @@ const ManageAppointments = () => {
     getAppointments();
   };
 
-  console.log(appointments);
-
   const columns = [
     {
-      title: "Car Name",
+      title: "Car",
       dataIndex: "carName",
       key: "carName",
       align: "center",
     },
     {
-      title: "Car Number",
+      title: "Reg. #",
       dataIndex: "carNumber",
       key: "carNumber",
       align: "center",
@@ -77,18 +78,19 @@ const ManageAppointments = () => {
       dataIndex: "subject",
       key: "subject",
       align: "center",
+      width: "10%",
     },
     {
       title: "Details",
       dataIndex: "details",
       key: "details",
-      align: "center",
     },
     {
       title: "Client",
       dataIndex: "userId", // Set dataIndex to 'userId' to directly access it
       key: "client",
       align: "center",
+      width: "10%",
       render: (userId) => {
         const formattedPhone = userId?.phoneno
           ? `${userId.phoneno.slice(0, 4)}-${userId.phoneno.slice(4)}`
@@ -102,11 +104,12 @@ const ManageAppointments = () => {
       },
     },
     {
-      title: "Requested Date",
+      title: "Req. Date",
       dataIndex: "requestedDate",
       key: "requestedDate",
       align: "center",
-      render: (date) => moment(date).format("YYYY-MM-DD"),
+
+      render: (date) => moment(date).format("DD MMM, YYYY"),
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,
@@ -140,8 +143,8 @@ const ManageAppointments = () => {
     },
     {
       title: "Issued Date",
-      dataIndex: "IssuedDate",
-      key: "IssuedDate",
+      dataIndex: "issuedDate",
+      key: "issuedDate",
       align: "center",
       render: (date) =>
         date ? moment(date).format("DD MMM, YY | HH:mm") : "Not Issued",
@@ -216,6 +219,7 @@ const ManageAppointments = () => {
         { text: "Approved", value: "Approved" },
         { text: "Rejected", value: "Rejected" },
         { text: "Completed", value: "Completed" },
+        { text: "Discarded", value: "Discarded" },
       ],
       onFilter: (value, record) => record.status === value,
     },
@@ -238,6 +242,11 @@ const ManageAppointments = () => {
 
   const showEditModal = (record) => {
     setSelectedAppointment(record);
+    form.setFieldsValue({
+      status: record.status,
+      additionalNote: record.additionalNote,
+      date: record.issuedDate ? moment(record.issuedDate) : null,
+    });
     setIsModalVisible(true);
   };
 
@@ -245,7 +254,8 @@ const ManageAppointments = () => {
     onStatusChange(
       selectedAppointment._id,
       values.status,
-      values.additionalNote
+      values.additionalNote,
+      values.date
     );
     setIsModalVisible(false);
   };
@@ -253,10 +263,29 @@ const ManageAppointments = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
     setSelectedAppointment(null);
+    form.resetFields();
   };
 
-  const onStatusChange = async (id, status, additionalNote) => {
-    // API call to update status
+  const onStatusChange = async (id, status, additionalNote, issuedDate) => {
+    setIsLoading(true);
+    try {
+      const res = await updateAppointmentStatus(
+        id,
+        additionalNote,
+        status,
+        issuedDate
+      );
+      if (res.status === 200) {
+        getAppointments();
+        toast.success("Appointment status updated successfully");
+      } else {
+        toast.error("Something went wrong");
+      }
+      setIsLoading(false);
+    } catch (error) {
+      toast.error("Something went wrong");
+      setIsLoading(false);
+    }
   };
 
   const requestedDate = selectedAppointment
@@ -302,17 +331,7 @@ const ManageAppointments = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <Form
-          layout="vertical"
-          initialValues={{
-            status:
-              selectedAppointment?.status == "Pending"
-                ? ""
-                : selectedAppointment?.status,
-            additionalNote: selectedAppointment?.additionalNote || "",
-          }}
-          onFinish={handleOk}
-        >
+        <Form layout="vertical" form={form} onFinish={handleOk}>
           <label className="text-base font-semibold">Status </label>
           <Form.Item
             name="status"
@@ -322,6 +341,7 @@ const ManageAppointments = () => {
               <Select.Option value="Approved">Approved</Select.Option>
               <Select.Option value="Rejected">Rejected</Select.Option>
               <Select.Option value="Completed">Completed</Select.Option>
+              <Select.Option value="Discarded">Discarded</Select.Option>
             </Select>
           </Form.Item>
           <label className="text-base font-semibold">Additional Note </label>
@@ -334,7 +354,14 @@ const ManageAppointments = () => {
           <label className="text-base font-semibold">Issued Time & Date</label>
           <Form.Item
             name="date"
-            rules={[{ required: true, message: "Please select a date" }]}
+            rules={[
+              ({ getFieldValue }) => ({
+                required:
+                  getFieldValue("status") !== "Rejected" &&
+                  getFieldValue("status") !== "Discarded",
+                message: "Please select a date",
+              }),
+            ]}
           >
             <DatePicker
               className="w-full"
