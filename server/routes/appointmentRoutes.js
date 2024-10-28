@@ -6,6 +6,7 @@ const {
   getAppointments,
   getAllAppointments,
   getLatestAppointments,
+  updateAppointmentStatus,
 } = require("../controllers/appointmentController");
 
 const router = express.Router();
@@ -15,5 +16,6 @@ router.get("/get", protect, getAppointments);
 router.delete("/delete/:id", protect, deleteAppointment);
 router.get("/getall", protect, getAllAppointments);
 router.get("/getlatest", protect, getLatestAppointments);
+router.patch("/updatestatus/:id", protect, updateAppointmentStatus);
 
 module.exports = router;
