@@ -6,7 +6,7 @@ import {
   getLatestAppointments,
   updateAppointmentStatus,
 } from "../../services/appointmentService";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 import { DatePicker, Form, Input, Modal, Select, Table, Tag } from "antd";
 import moment from "moment";
 import { toast } from "react-toastify";
@@ -87,7 +87,7 @@ const ManageAppointments = () => {
     },
     {
       title: "Client",
-      dataIndex: "userId", // Set dataIndex to 'userId' to directly access it
+      dataIndex: "userId",
       key: "client",
       align: "center",
       width: "10%",
@@ -102,6 +102,48 @@ const ManageAppointments = () => {
           </div>
         );
       },
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Search by name or number"
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => confirm()}
+            style={{ marginBottom: 8, display: "block" }}
+          />
+          <Button
+            type="primary"
+            onClick={() => confirm()}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            Search
+          </Button>
+          <Button onClick={clearFilters} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+        </div>
+      ),
+      onFilter: (value, record) => {
+        const nameMatch = record.userId?.name
+          ? record.userId.name.toLowerCase().includes(value.toLowerCase())
+          : false;
+        const phoneMatch = record.userId?.phoneno
+          ? record.userId.phoneno.includes(value.replace("-", ""))
+          : false;
+        return nameMatch || phoneMatch;
+      },
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#ffffff" : "#ffffff" }} />
+      ),
     },
     {
       title: "Req. Date",
