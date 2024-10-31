@@ -96,10 +96,8 @@ const getAppointments = asyncHandler(async (req, res) => {
 });
 
 const deleteAppointment = asyncHandler(async (req, res) => {
-  const user = req.user._id;
   const appointmentId = req.params.id;
   const appointment = await Appointment.findOne({
-    userId: user,
     _id: appointmentId,
   });
 
