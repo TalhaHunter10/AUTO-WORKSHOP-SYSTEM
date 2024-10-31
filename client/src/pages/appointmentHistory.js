@@ -264,12 +264,12 @@ const AppointmentHistory = () => {
         />
       </div>
 
-      <div className="m-10 md:mx-32 md:my-10 overflow-x-auto">
+      <div className="m-5 md:mx-32 md:my-10 overflow-x-auto min-h-[60vh]">
         <Table
           dataSource={appointments}
           columns={columns}
           rowKey="_id"
-          style={{ height: "60vh" }}
+          pagination={{ pageSize: 5 }}
         ></Table>
       </div>
 
