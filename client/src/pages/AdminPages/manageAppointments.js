@@ -2,12 +2,26 @@ import { useEffect, useState } from "react";
 import Button from "../../components/button";
 import { Loader } from "../../components/loader";
 import {
+  deleteAppointment,
   getAllAppointments,
   getLatestAppointments,
   updateAppointmentStatus,
 } from "../../services/appointmentService";
-import { EditOutlined, SearchOutlined } from "@ant-design/icons";
-import { DatePicker, Form, Input, Modal, Select, Table, Tag } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import {
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Table,
+  Tag,
+  Tooltip,
+} from "antd";
 import moment from "moment";
 import { toast } from "react-toastify";
 
@@ -68,7 +82,7 @@ const ManageAppointments = () => {
       align: "center",
     },
     {
-      title: "Reg. #",
+      title: "Reg No",
       dataIndex: "carNumber",
       key: "carNumber",
       align: "center",
@@ -142,7 +156,9 @@ const ManageAppointments = () => {
         return nameMatch || phoneMatch;
       },
       filterIcon: (filtered) => (
-        <SearchOutlined style={{ color: filtered ? "#ffffff" : "#ffffff" }} />
+        <SearchOutlined
+          style={{ color: filtered ? "red" : "#ffffff", fontSize: 16 }}
+        />
       ),
     },
     {
@@ -268,19 +284,61 @@ const ManageAppointments = () => {
     {
       title: "Actions",
       key: "actions",
-      render: (_, record) => (
-        <EditOutlined
-          style={{
-            fontSize: 24,
-            color: record.status === "Completed" ? "gray" : "black",
-          }}
-          onClick={() => record.status !== "Completed" && showEditModal(record)}
-          disabled={record.status === "Completed"}
-        />
-      ),
       align: "center",
+      render: (_, record) => (
+        <div style={{ display: "flex", justifyContent: "center", gap: "30px" }}>
+          <Tooltip title="Edit">
+            <EditOutlined
+              style={{
+                fontSize: 24,
+                color: record.status === "Completed" ? "gray" : "black",
+                cursor:
+                  record.status === "Completed" ? "not-allowed" : "pointer",
+              }}
+              onClick={() =>
+                record.status !== "Completed" && showEditModal(record)
+              }
+            />
+          </Tooltip>
+
+          {record.status === "Discarded" && (
+            <Tooltip title="Delete">
+              <DeleteOutlined
+                style={{ fontSize: 24, color: "red", cursor: "pointer" }}
+                onClick={() => onDelete(record._id)}
+              />
+            </Tooltip>
+          )}
+        </div>
+      ),
     },
   ];
+
+  const onDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this appointment?",
+      content: "This action cannot be undone.",
+      okText: "Yes, delete it",
+      okType: "danger",
+      cancelText: "Cancel",
+      onOk: async () => {
+        setIsLoading(true);
+        try {
+          const res = await deleteAppointment(id);
+          if (res.status === 200) {
+            getAppointments();
+            toast.success("Appointment deleted successfully");
+          } else {
+            toast.error("Something went wrong");
+          }
+        } catch (error) {
+          toast.error("Something went wrong");
+        } finally {
+          setIsLoading(false);
+        }
+      },
+    });
+  };
 
   const showEditModal = (record) => {
     setSelectedAppointment(record);
