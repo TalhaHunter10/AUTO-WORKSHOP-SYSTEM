@@ -53,6 +53,11 @@ const UHeader = ({
   const handleLogout = async () => {
     setIsProfileMenuOpen(false);
     try {
+      LoginStatus();
+      if (!isLoggedIn) {
+        navigate("/login");
+        return;
+      }
       const res = await logout();
       if (res.status === 200) {
         setIsLoggedIn(false);
