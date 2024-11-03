@@ -9,10 +9,10 @@ import AccountManagement from "./AdminPages/accountManagement";
 import FinancialManagement from "./AdminPages/financialManagement";
 import PartsManagement from "./AdminPages/partsManagement";
 import ManageAppointments from "./AdminPages/manageAppointments";
+import Dashboard from "./AdminPages/dashboard";
 
 const WmLandingPage = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const [userType, setUserType] = useState(null);
   const [activeTabKey1, setActiveTabKey1] = useState("tab1");
   const onTab1Change = (key) => {
     setActiveTabKey1(key);
@@ -21,7 +21,7 @@ const WmLandingPage = () => {
 
   useEffect(() => {
     LoginStatus();
-  }, []);
+  }, [activeTabKey1]);
 
   const LoginStatus = async () => {
     try {
@@ -46,7 +46,6 @@ const WmLandingPage = () => {
         window.location.reload();
         navigate("/");
       } else {
-        toast.error("Something went wrong");
         window.location.reload();
       }
     } catch (error) {
@@ -105,14 +104,14 @@ const WmLandingPage = () => {
     },
   ];
 
-  const contentList = {
-    tab1: <></>,
+  const contentList = (changeTab) => ({
+    tab1: <Dashboard changeTab={changeTab} />,
     tab2: <ManageAppointments />,
     tab3: <PartsManagement />,
     tab4: <FinancialManagement />,
     tab5: <AllReviews />,
     tab6: <AccountManagement />,
-  };
+  });
 
   return (
     <div>
@@ -155,7 +154,7 @@ const WmLandingPage = () => {
           bordered={false}
           className="bg-neutral-50 htext"
         >
-          {contentList[activeTabKey1]}
+          {contentList(setActiveTabKey1)[activeTabKey1]}
         </Card>
       </div>
     </div>
