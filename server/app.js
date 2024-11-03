@@ -51,6 +51,9 @@ app.use("/api/chat", chatRoutes);
 const partsRoutes = require("./routes/partsRoutes");
 app.use("/api/parts", partsRoutes);
 
+const dashboardRoutes = require("./routes/dashboardRoutes");
+app.use("/api/dashboard", dashboardRoutes);
+
 //port
 const port = process.env.PORT || 8008;
 
