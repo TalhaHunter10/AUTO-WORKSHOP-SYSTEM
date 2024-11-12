@@ -5,9 +5,13 @@ from langchain_community.vectorstores import FAISS
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_core.prompts import ChatPromptTemplate
+from dotenv import load_dotenv
 import pandas as pd
 import os
 import sys
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -81,7 +85,10 @@ def QAmodel(api_key):
     return qa
 
 def main():
-    api_key = "sk-V3MZGJwvw1EMnZOeJXcwB5DkZNEGUeX68-7pWSCi-kT3BlbkFJdLhs8Piv_QIa5_6RzhUdobnBNtNXwnH8bB9k5MvxgA"
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("API key not found. Please set OPENAI_API_KEY in your environment variables.")
+        
     qa_model = QAmodel(api_key)
     if len(sys.argv) > 1:
         user_input = sys.argv[1]
