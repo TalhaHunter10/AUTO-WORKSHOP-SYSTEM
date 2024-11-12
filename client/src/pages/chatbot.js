@@ -82,10 +82,13 @@ const Chatbot = () => {
       if (res.status === 200) {
         setChat((prevChat) => [...prevChat, res.data.message]);
       } else {
-        toast.error("Error occurred while sending message");
+        toast.error("Error occurred while processing query");
       }
     } catch (error) {
-      console.error(error);
+      console.error(
+        "API_KEY could be missing or incorrect | Check .env \n Verify Python Libraries are installed !!"
+      );
+      toast.error("Error occurred while processing query");
     }
     setIsLoading(false);
   };
