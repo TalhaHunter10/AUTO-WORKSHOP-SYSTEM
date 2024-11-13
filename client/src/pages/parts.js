@@ -58,12 +58,16 @@ const Parts = () => {
     if (value === "") {
       fetchParts();
     } else {
-      const searchResults = originalParts.filter(
-        (part) =>
-          part.partName.toLowerCase().includes(value.toLowerCase()) ||
-          part.partCompany.toLowerCase().includes(value.toLowerCase()) ||
-          part.description.toLowerCase().includes(value.toLowerCase())
-      );
+      const searchWords = value.toLowerCase().split(" ");
+      const searchResults = originalParts.filter((part) => {
+        return searchWords.some(
+          (word) =>
+            part.partName.toLowerCase().includes(word) ||
+            part.partCompany.toLowerCase().includes(word) ||
+            part.description.toLowerCase().includes(word)
+        );
+      });
+
       setParts(searchResults);
     }
   };

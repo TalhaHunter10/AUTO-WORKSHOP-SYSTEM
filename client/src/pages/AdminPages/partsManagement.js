@@ -305,9 +305,6 @@ const PartsManagement = () => {
       onOk() {
         handleDelete(id);
       },
-      onCancel() {
-        console.log("Cancel");
-      },
     });
   };
 

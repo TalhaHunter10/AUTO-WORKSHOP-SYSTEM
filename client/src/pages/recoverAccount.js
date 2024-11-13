@@ -58,7 +58,6 @@ const RecoverAccount = () => {
       setIsLoading(true);
       try {
         const res = await resetPassword(email, code, password);
-        console.log(res);
         if (res.status == 404) {
           toast.error("Email is not associated with any user !");
         } else if (res.status == 200) {
