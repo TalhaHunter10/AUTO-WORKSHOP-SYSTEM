@@ -31,6 +31,8 @@ To run this project, you will need to add the following environment variables to
 
 `JWT_SECRET =`
 
+`OPENAI_API_KEY= <Your_OpenAI_key>`
+
 `EMAIL_HOST = smtp.gmail.com`
 
 `EMAIL_USER = <your_gmail_address>`
@@ -55,7 +57,7 @@ Create a clone of this project and open the root folder in the terminal.
 this will verify the installation by displaying the current installed version.
 Then type the following command to install the required libraries :
  ```cmd
-  pip install langchain_openai langchain_community faiss-cpu pandas
+  pip install langchain_openai langchain_community faiss-cpu pandas python-dotenv
 ```
 Chatbot is all set up.
 
