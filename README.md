@@ -60,7 +60,11 @@ this will verify the installation by displaying the current installed version.
 Then type the following command to install the required libraries :
 
 ```cmd
- pip install langchain_openai langchain_community faiss-cpu pandas python-dotenv
+ pip install langchain_openai langchain_community faiss-cpu
+```
+
+```cmd
+ pip install pandas python-dotenv
 ```
 
 Chatbot is all set up.
