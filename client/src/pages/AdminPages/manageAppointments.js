@@ -35,7 +35,7 @@ const ManageAppointments = () => {
 
   useEffect(() => {
     getAppointments();
-  }, []);
+  }, [latestAppointmentsFlag]);
 
   const getAppointments = async () => {
     if (latestAppointmentsFlag) {
@@ -69,9 +69,8 @@ const ManageAppointments = () => {
     }
   };
 
-  const changeFlag = () => {
-    setLatestAppointmentsFlag(!latestAppointmentsFlag);
-    getAppointments();
+  const changeFlag = async () => {
+    await setLatestAppointmentsFlag(!latestAppointmentsFlag);
   };
 
   const columns = [
