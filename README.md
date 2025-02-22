@@ -183,32 +183,63 @@ x-www-form-urlencoded :
 
 ### Landing Page
 
-![alt text](https://github.com/talhahunter10/EGold-Haven-Project/blob/main/Sample%20Views/landing%20page.png?raw=true)
+![Landing Page 1](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/landing1.png?raw=true)
+
+![Landing Page 2](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/landing2.png?raw=true)
+
+![Landing Page 3](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/landing3.png?raw=true)
+
+![Landing Page 4](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/landing4.png?raw=true)
+
+![Landing Page 5](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/landing5.png?raw=true)
 
 ### Login Page
 
-![alt text](https://github.com/talhahunter10/EGold-Haven-Project/blob/main/Sample%20Views/login%20page.png?raw=true)
+![Login View](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/login.png?raw=true)
 
 ### Register Page
 
-![alt text](https://github.com/talhahunter10/EGold-Haven-Project/blob/main/Sample%20Views/register%20page.png?raw=true)
+![Signup View](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/register.png?raw=true)
 
-### Browse Listings
+### Forgot Password
 
-![alt text](https://github.com/talhahunter10/EGold-Haven-Project/blob/main/Sample%20Views/browse%20listings.png?raw=true)
+![Forgot Password View](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/forgot%20password.png?raw=true)
 
-### Browse Jewelers
+### Chat-Bot
 
-![alt text](https://github.com/talhahunter10/EGold-Haven-Project/blob/main/Sample%20Views/browse%20jewelers.png?raw=true)
+![Chat Bot View](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/empty%20chat.png?raw=true)
 
-### Chat
+![Chat Bot processing](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/chatprogress.png?raw=true)
 
-![alt text](https://github.com/talhahunter10/EGold-Haven-Project/blob/main/Sample%20Views/chat1.png?raw=true)
-![alt text](https://github.com/talhahunter10/EGold-Haven-Project/blob/main/Sample%20Views/chat2.png?raw=true)
+![Chat Bot Results](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/chat%20result.png?raw=true)
 
-### Jeweler Store Page
+### Services
 
-![alt text](https://github.com/talhahunter10/EGold-Haven-Project/blob/main/Sample%20Views/store%20page.png?raw=true)
+![Services View](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/services.png?raw=true)
+
+### Book Appointment
+
+![Book Appointment View](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/Book%20appointment.png?raw=true)
+
+### My Appointments
+
+![My Appointments View](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/my%20appointments.png?raw=true)
+
+### Admin Dashboard
+
+![Admin Dasboard](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/admin%20dashboard.png?raw=true)
+
+### Handle Appointments
+
+![Handle Appointments](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/handle%20appointments.png?raw=true)
+
+### Track Finances
+
+![Track Finances](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/track%20finances.png?raw=true)
+
+### Account Management
+
+![Account Management](https://github.com/TalhaHunter10/AUTO-WORKSHOP-SYSTEM/blob/main/Sample%20Views/account%20management.png?raw=true)
 
 ## FAQ
 
@@ -225,7 +256,7 @@ x-www-form-urlencoded :
 
 4. **How do I book an appointment?**
 
-   - Simply create an account, navigate to the 'Book Appointment' section, provide your car details and the issue description, and submit the request.
+   - Simply create an account, navigate to the 'Book Appointment' section, provide your car details and problem description, and submit the request.
 
 5. **Can I edit or cancel an appointment after booking?**
 
