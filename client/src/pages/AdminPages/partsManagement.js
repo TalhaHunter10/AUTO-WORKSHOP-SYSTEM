@@ -72,8 +72,24 @@ const PartsManagement = () => {
 
   const handleAddPart = async (values) => {
     try {
+      const MAX_FILE_SIZE = 15 * 1024; // 50Kb
+
+      if (!values.image || values.image.length === 0) {
+        toast.error("Please select an image.");
+        return;
+      }
+
       const { image, ...rest } = values;
-      const file = image[0].originFileObj;
+      const file = image[0]?.originFileObj;
+      if (!file) {
+        toast.error("Invalid image file.");
+        return;
+      }
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error("Image size exceeds 15kb. Please upload a smaller image.");
+        return;
+      }
+
       const byteArray = await getByteArray(file);
       const partData = {
         ...rest,
@@ -81,14 +97,16 @@ const PartsManagement = () => {
       };
 
       const response = await addPart(partData);
-      if (response.status === 200) {
-        toast.success(response.data.message);
+      if (response?.status === 200) {
+        toast.success(response.data.message || "Part added successfully.");
       } else {
         toast.error("Failed to add part");
       }
-      fetchParts();
-      handleCancel();
+
+      fetchParts(); // Refresh parts list
+      handleCancel(); // Close modal or clear form
     } catch (error) {
+      console.error("Error adding part:", error);
       toast.error("Failed to add part");
     }
   };
