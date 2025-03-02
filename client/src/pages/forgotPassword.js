@@ -77,7 +77,10 @@ const ForgotPassword = () => {
             <p className="btext text-xl md:text-2xl mt-6">
               Enter you registered email address to recieve recovery code.
             </p>
-            <form className="mt-10">
+            <form
+              className="mt-10"
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit(e)}
+            >
               <p className="btext font-semibold text-xl">Email Address</p>
               <Input
                 placeholder="Enter your email address"

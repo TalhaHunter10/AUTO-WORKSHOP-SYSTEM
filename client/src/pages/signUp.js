@@ -20,16 +20,12 @@ const SignUp = () => {
 
   useEffect(() => {
     setErrors("");
-  }
-  , [formdata]);
+  }, [formdata]);
 
   useEffect(() => {
     isLoggedIn();
-  }
-  , []);
+  }, []);
 
-  
-  
   const isLoggedIn = async () => {
     try {
       const res = await checkLoginStatus();
@@ -45,62 +41,72 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = {}
+    const validationErrors = {};
 
     if (!formdata.name.trim()) {
-      validationErrors.name = 'Name is required !';
-    } else if (!/^[a-zA-Z]{2,40}(?: [a-zA-Z]{2,40}){0,3}$/.test(formdata.name)) {
-      validationErrors.name = 'Enter a Valid Name !';
+      validationErrors.name = "Name is required !";
+    } else if (
+      !/^[a-zA-Z]{2,40}(?: [a-zA-Z]{2,40}){0,3}$/.test(formdata.name)
+    ) {
+      validationErrors.name = "Enter a Valid Name !";
     }
 
     if (!formdata.email.trim()) {
-      validationErrors.email = 'Email is required !';
-    } else if (!/^[a-zA-Z0-9.]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(formdata.email)) {
-      validationErrors.email = 'Enter a Valid Email !';
+      validationErrors.email = "Email is required !";
+    } else if (
+      !/^[a-zA-Z0-9.]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(formdata.email)
+    ) {
+      validationErrors.email = "Enter a Valid Email !";
     }
 
     if (!formdata.phoneno.trim()) {
-      validationErrors.phoneno = 'Phone No. is required !';
-    } else if (!/^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/gm.test(formdata.phoneno)) {
-      validationErrors.phoneno = 'Enter a Valid Phone No. !';
+      validationErrors.phoneno = "Phone No. is required !";
+    } else if (
+      !/^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/gm.test(formdata.phoneno)
+    ) {
+      validationErrors.phoneno = "Enter a Valid Phone No. !";
     }
 
     if (!formdata.password.trim()) {
-      validationErrors.password = 'Password is required !';
+      validationErrors.password = "Password is required !";
     } else if (formdata.password.length < 8) {
-      validationErrors.password = 'Password needs to have 8 characters minimum !';
+      validationErrors.password =
+        "Password needs to have 8 characters minimum !";
     }
 
     if (!formdata.confirmPassword.trim()) {
-      validationErrors.confirmPassword = 'Confirm Password is required !';
+      validationErrors.confirmPassword = "Confirm Password is required !";
     } else if (formdata.password !== formdata.confirmPassword) {
-      validationErrors.confirmPassword = 'Passwords do not match !';
+      validationErrors.confirmPassword = "Passwords do not match !";
     }
 
-    setErrors(validationErrors)
+    setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
       const userData = {
-        name, email, phoneno, password
-      }
-      setIsLoading(true)
+        name,
+        email,
+        phoneno,
+        password,
+      };
+      setIsLoading(true);
       try {
-        const res = await registerUser(userData)
-       if(res.status === 200 || res.status === 201){
-        toast.success('Verification Code has been sent to your email address !')
-        navigate(`/confirm-email/${formdata.email}`)
-       }
-       else{
-        if(res.status === 400 && res.type === 'exists'){
-          toast.error('User already exists !')
+        const res = await registerUser(userData);
+        if (res.status === 200 || res.status === 201) {
+          toast.success(
+            "Verification Code has been sent to your email address !"
+          );
+          navigate(`/confirm-email/${formdata.email}`);
+        } else {
+          if (res.status === 400 && res.type === "exists") {
+            toast.error("User already exists !");
+          } else {
+            toast.error("Something went wrong. Please try again !");
+          }
         }
-        else{
-          toast.error('Something went wrong. Please try again !')
-        }
-       }
-        setIsLoading(false)
+        setIsLoading(false);
       } catch (error) {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
   };
@@ -112,7 +118,10 @@ const SignUp = () => {
           <div className="mt-10 md:mt-0 pl-0 pr-0 md:pl-10 lg:pl-20 xl:pl-48 md:pr-20 md:mb-20">
             <h1 className="htext text-3xl md:text-5xl">Sign Up</h1>
 
-            <form className="mt-10">
+            <form
+              className="mt-10"
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit(e)}
+            >
               <p className="btext font-semibold text-lg">Full Name</p>
               <Input
                 placeholder="Enter your full name"
@@ -123,7 +132,9 @@ const SignUp = () => {
                   setFormdata({ ...formdata, name: e.target.value })
                 }
               />
-              {errors.name && <h1 className='text-red-600 mb-6'>{errors.name}</h1>}
+              {errors.name && (
+                <h1 className="text-red-600 mb-6">{errors.name}</h1>
+              )}
 
               <p className="btext font-semibold mt-5 text-lg">Email</p>
               <Input
@@ -135,7 +146,9 @@ const SignUp = () => {
                   setFormdata({ ...formdata, email: e.target.value })
                 }
               />
-              {errors.email && <h1 className='text-red-600 mb-6'>{errors.email}</h1>}
+              {errors.email && (
+                <h1 className="text-red-600 mb-6">{errors.email}</h1>
+              )}
 
               <p className="btext font-semibold mt-5 text-lg">Phone Number</p>
               <Input
@@ -147,7 +160,9 @@ const SignUp = () => {
                   setFormdata({ ...formdata, phoneno: e.target.value })
                 }
               />
-              {errors.phoneno && <h1 className='text-red-600 mb-6'>{errors.phoneno}</h1>}
+              {errors.phoneno && (
+                <h1 className="text-red-600 mb-6">{errors.phoneno}</h1>
+              )}
 
               <p className="btext font-semibold mt-5 text-lg">Password</p>
               <Input.Password
@@ -158,7 +173,9 @@ const SignUp = () => {
                   setFormdata({ ...formdata, password: e.target.value })
                 }
               />
-               {errors.password && <h1 className='text-red-600 mb-6'>{errors.password}</h1>}
+              {errors.password && (
+                <h1 className="text-red-600 mb-6">{errors.password}</h1>
+              )}
 
               <p className="btext font-semibold mt-5 text-lg">
                 Confirm Password
@@ -171,7 +188,9 @@ const SignUp = () => {
                   setFormdata({ ...formdata, confirmPassword: e.target.value })
                 }
               />
-              {errors.confirmPassword && <h1 className='text-red-600 mb-6'>{errors.confirmPassword}</h1>}
+              {errors.confirmPassword && (
+                <h1 className="text-red-600 mb-6">{errors.confirmPassword}</h1>
+              )}
             </form>
             <p
               to=""

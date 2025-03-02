@@ -87,7 +87,10 @@ const RecoverAccount = () => {
               Enter the recovery code sent to your email address.
               <span className="text-md text-red-600">({email})</span>
             </p>
-            <form className="mt-10">
+            <form
+              className="mt-10"
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit(e)}
+            >
               <p className="btext font-semibold text-xl">Recovery Code</p>
               <Input
                 placeholder="Enter your recovery code"

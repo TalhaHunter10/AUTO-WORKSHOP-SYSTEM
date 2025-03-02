@@ -68,7 +68,10 @@ const Login = () => {
             <p className="btext text-xl md:text-2xl mt-6">
               Hi, Welcome Back &#x1F44B;
             </p>
-            <form className="mt-10">
+            <form
+              className="mt-10"
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit(e)}
+            >
               <p className="btext font-semibold text-xl">Email</p>
               <Input
                 placeholder="Enter your email address"
